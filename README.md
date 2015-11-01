@@ -14,7 +14,7 @@ The philosophy I'm running with here is that we should get products out into pro
 
 #### TODO:
 
-I've started this repository with a few [Issues](/kyletns/uberForSanders/issues), so please put discussion there!
+I've started this repository with a few [Issues](https://github.com/kyletns/uberForSanders/issues), so please put discussion there!
 
 - [Find the Bernie volunteers who help people organize events](https://github.com/kyletns/uberForSanders/issues/1)
 - [Brainstorm the simplest, lightest product experience we can provide that accomplishes our goals](https://github.com/kyletns/uberForSanders/issues/2)
