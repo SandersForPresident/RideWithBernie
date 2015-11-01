@@ -16,8 +16,8 @@ The philosophy I'm running with here is that we should get products out into pro
 
 I've started this repository with a few [Issues](/kyletns/uberForSanders/issues), so please put discussion there!
 
-- Find the Bernie volunteers who help people organize events
-- Brainstorm the simplest, lightest product experience we can provide that accomplishes our goals
-- Brainstorm the simplest, lightest tools that we can use to build this thing
+- [Find the Bernie volunteers who help people organize events](https://github.com/kyletns/uberForSanders/issues/1)
+- [Brainstorm the simplest, lightest product experience we can provide that accomplishes our goals](https://github.com/kyletns/uberForSanders/issues/2)
+- [Brainstorm the simplest, lightest tools that we can use to build this thing](https://github.com/kyletns/uberForSanders/issues/3)
 
 And of course, any other issues you come up with are welcome there, as well.
