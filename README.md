@@ -1,3 +1,10 @@
+**Update:** If you're just getting here and interested in helping, please do 2 things:
+
+1. Glance through this Readme so you have an idea of what the project is about
+2. [Introduce yourself on this issue](https://github.com/kyletns/uberForSanders/issues/4)
+
+---
+
 Many devs have been talking about a ride-sharing app of some kind for the Sanders campaign. Some seemed to be thinking about more of a "ride-share to the local debate party" app, and others had been thinking more of a "short-notice uber ride to the polls on election day" app. It seems obvious that both would be great, and that they're also quite similar. I'm going to posit that we should **start** by building the "ride-share" app, and then (if successful), move on to the "uber" idea.
 
 ### Reasoning
