@@ -3,7 +3,7 @@
 1. Glance through this Readme so you have an idea of what the project is about
 2. [Fill out a row for yourself on this introduction spreadsheet](https://docs.google.com/spreadsheets/d/15B-g3MRpAffFGhvdjjrrCutL304OMWZMSekVZ_lWqI8/edit#gid=0) (so we can pick what tech to use)
 
-**Note about Slack**: We have our own Slack team, so please either add your email to the spreadsheet above (you can remove it once you've been invited), or just PM [buddhistsforbernie on reddit](https://www.reddit.com/user/buddhistsforbernie) with your email and he'll invite you.
+**Note about Slack**: We have our own Slack team, so please either add your email to the spreadsheet above (you can remove it once you've been invited), or just[PM buddhistsforbernie on reddit](https://www.reddit.com/user/buddhistsforbernie) with your email and he'll invite you.
 
 ---
 
