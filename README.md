@@ -7,6 +7,10 @@
 
 ---
 
+### Current goings on
+
+We're currently in the design phase. Our most recent proposal for UX is [here](https://docs.google.com/document/d/1BK1FKa6pxtQySZlkpvszBITPte67fHMVc-FETr4TZ5M/edit#heading=h.u52wr7xp20zf), so feel free to check it out and drop in some comments on the Google Doc if you have feedback.
+
 ### Background
 
 Many devs have been talking about a ride-sharing app of some kind for the Sanders campaign. Some seemed to be thinking about more of a "ride-share to the local debate party" app, and others had been thinking more of a "short-notice uber ride to the polls on election day" app. It seems obvious that both would be great, and that they're also quite similar. I'm going to posit that we should **start** by building the "ride-share" app, and then (if successful), move on to the "uber" idea.
