@@ -1,21 +1,29 @@
-**Update:** If you're just getting here and interested in helping, please do 2 things:
+### The Mission
 
-1. Glance through this Readme so you have an idea of what the project is about
-2. [Fill out a row for yourself on this introduction spreadsheet](https://docs.google.com/spreadsheets/d/15B-g3MRpAffFGhvdjjrrCutL304OMWZMSekVZ_lWqI8/edit#gid=0) (so we can pick what tech to use)
+We want to build an app to help people get rides. We're going to start by helping people get to events, like volunteering opportunities,
+and work our way up to helping people get to the polls on caucus day and election day.
 
-**Note about Slack**: We have our own Slack team, so please either add your email to the spreadsheet above (you can remove it once you've been invited), or just email BuddhistsForBernie at [buddhistsforbernie@gmail.com](mailto:buddhistsforbernie@gmail.com) and he'll invite you.
+### Requirements
 
----
+1. Ruby 2.2.3
+2. Rails 4.2.4
+2. [RubyGems](https://rubygems.org/pages/download)
+3. [Bundler](http://bundler.io/)
+3. Postgres ([Postgres.app](http://postgresapp.com/) recommended for OS X).
+
+If you want to modify the front-end assets, you'll also need:
+
+1. Node (`brew install node` if you don't have it)
+2. Bower (`npm install -g bower` if you don't have it)
 
 ### Installing
 
-1. Clone this repo
-2. `bundle`
-3. Install postgres onto your system ([Postgres.app](http://postgresapp.com/) recommended for OS X).
-4. Create a postgres database with `bin/rake db:create`.
-5. Head to `localhost:3000`
-6. Make sure you've got node installed with `node -v` (`brew install node` if you don't have it).
-6. Make sure you've got bower installed with `bower -v` (`npm install -g bower` if you don't have it).
+1. Clone this repo with `git clone git@github.com:kyletns/RideWithBernie.git`
+2. `cd RideWithBernie`
+2. `bundle install`
+4. Create the database with `bin/rake db:create`.
+5. Boot up the server with `rails server`
+5. Head to [http://localhost:3000](http://localhost:3000).
 
 ### What our app is setup with
 
@@ -37,13 +45,13 @@ This file just boots up the angular app, and hosts the ng-view.
 
 There's no API yet, but when we've got one, we'll post it here!
 
-### Getting new front-end assets
+### Getting new front-end libraries
 
 We're using [bower-rails](https://github.com/rharriso/bower-rails/) for super simple front-end asset management,
-and all assets are stored in `vendor/assets/bower_components`. If you modify the `Bowerfile` and you need to pull down extra front-end
-assets, just use `rake bower:install`.
+and all assets are stored in `vendor/assets/bower_components`. If you need more front-end libraries, modify the `Bowerfile`, and then install them with `rake bower:install`. You may need to google around to find the exact line to put into the `Bowerfile`.
 
-### TODO
+### Contributing
 
-All managed through [Issues](https://github.com/kyletns/RideWithBernie/issues)!
+We have our own Slack team, so if you want to get onto that, email [buddhistsforbernie@gmail.com](mailto:buddhistsforbernie@gmail.com) and he'll invite you.
 
+You can find our todo list in [Issues](https://github.com/kyletns/RideWithBernie/issues)!
