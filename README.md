@@ -12,8 +12,17 @@
 1. Clone this repo
 2. `bundle`
 3. Install postgres onto your system ([Postgres.app](http://postgresapp.com/) recommended for OS X).
-4. Create a postgres database with `createdb RideWithBernie_development`.
+4. Create a postgres database with `bin/rake db:create`.
 5. Head to `localhost:3000`
+6. Make sure you've got node installed with `node -v` (`brew install node` if you don't have it).
+6. Make sure you've got bower installed with `bower -v` (`npm install -g bower` if you don't have it).
+
+### What our app is setup with
+
+- Rails 4.2.4
+- Ruby 2.2.3
+- Angular 1.4.7
+- [Font Awesome](http://fontawesome.io/get-started/) icons
 
 ### Current goings on
 

@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '2.2.3'
+
 gem 'puma'
 
 # For SMS / calls
@@ -11,6 +13,8 @@ gem 'bitly'
 # Store ENV variables in .env
 gem 'dotenv-rails', :groups => [:development, :test]
 
+# Front end asset management for realz!
+gem 'bower-rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
@@ -51,3 +55,8 @@ group :development do
   gem 'web-console', '~> 2.0'
 end
 
+group :production, :staging do
+  gem "rails_12factor"
+  gem "rails_stdout_logging"
+  gem "rails_serve_static_assets"
+end

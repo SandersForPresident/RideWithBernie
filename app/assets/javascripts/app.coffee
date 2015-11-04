@@ -1,0 +1,1 @@
+ridewithbernie = angular.module('ridewithbernie', [])
