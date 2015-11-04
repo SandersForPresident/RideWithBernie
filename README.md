@@ -52,6 +52,10 @@ and all assets are stored in `vendor/assets/bower_components`. If you need more 
 
 ### Contributing
 
+We use the [Github Flow](https://guides.github.com/introduction/flow/) branching model.
+Make sure to create new, well-named branches for all work, and then submit PRs back to master when you are ready to merge your changes.
+No pushing straight to master!
+
 We have our own Slack team, so if you want to get onto that, email [buddhistsforbernie@gmail.com](mailto:buddhistsforbernie@gmail.com) and he'll invite you.
 
 You can find our todo list in [Issues](https://github.com/kyletns/RideWithBernie/issues)!
