@@ -7,6 +7,14 @@
 
 ---
 
+### Installing
+
+1. Clone this repo
+2. `bundle`
+3. Install postgres onto your system ([Postgres.app](http://postgresapp.com/) recommended for OS X).
+4. Create a postgres database with `createdb RideWithBernie_development`.
+5. Head to `localhost:3000`
+
 ### Current goings on
 
 We're currently in the design phase. Our most recent proposal for UX is [here](https://docs.google.com/document/d/1BK1FKa6pxtQySZlkpvszBITPte67fHMVc-FETr4TZ5M/edit#heading=h.u52wr7xp20zf), so feel free to check it out and drop in some comments on the Google Doc if you have feedback.
