@@ -22,6 +22,7 @@
 - Rails 4.2.4
 - Ruby 2.2.3
 - Angular 1.4.7
+- [BernieStrap](http://coders.forsanders.com/bootstrap/)
 - [Font Awesome](http://fontawesome.io/get-started/) icons
 - Ruby/Angular/Bower setup done as in [this blog](http://angular-rails.com/index.html).
 
