@@ -13,7 +13,7 @@ ridewithbernie.config([ '$routeProvider',
       .when '/profile',
         templateUrl: "profile.html"
         controller: 'ProfileController'
-      .when '/results',
+      .when '/profiles/:uuid/results',
         templateUrl: "results.html"
         controller: 'ResultsController'
 ])
@@ -25,17 +25,23 @@ controllers.controller("InstructionsController", [ '$scope', ($scope) ->
   $scope.eventId = 123
 ])
 
-controllers.controller("ProfileController", [ '$scope', '$location', ($scope, $location) ->
+controllers.controller("ProfileController", [ '$scope', '$location', '$http', ($scope, $location, $http) ->
   $scope.eventTitle = "Tabling at UC Berkeley Sproul Plaza"
   $scope.eventId = 123
   $scope.profile = {
-    newRecord: false
+    newRecord: true
   }
   $scope.save = ->
-    $location.path '/results'
+    if $scope.profile.newRecord
+      $http.post "/profiles", { profile: $scope.profile }
+      .then (response) ->
+        $location.path "/profiles/#{response.data.uuid}/results"
+      , (data) -> #error!
+        alert "Error!"
 ])
 
-controllers.controller("ResultsController", [ '$scope', ($scope) ->
+controllers.controller("ResultsController", [ '$scope', '$routeParams', ($scope, $routeParams) ->
+  #$http.get "/profiles/#{$routeParams.uuid}"
   $scope.eventTitle = "Tabling at UC Berkeley Sproul Plaza"
   $scope.eventId = 123
   $scope.search = { type: 'drivers' }
