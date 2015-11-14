@@ -24,11 +24,28 @@ small, .help-block {
 }
 
 .header {
-  padding: 5px;
+  padding: 5px 0;
   text-align: center;
-  border-bottom: 1px solid #333;
-  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
   small { font-size: 12px; }
+  .btn { margin-right: 3px; }
+}
+
+.btn-info,
+.btn-info:hover, .btn-info:active, .btn-info:focus,
+.btn-info:active:hover,
+.btn-info.active:hover,
+.btn-info:active:focus,
+.btn-info.active:focus,
+.btn-info:active.focus,
+.btn-info.active.focus {
+  background-color: #EFF3F7;
+  color: #147fd7;
+  border: none;
 }
 
 span.big-number {
@@ -39,12 +56,14 @@ span.big-number {
   border-radius: 50%;
 }
 
-.instructions table {
-  td { padding: 5px 5px 20px; }
+.instructions {
+  table td { padding: 5px 5px 20px; }
+  p.lead { margin: 25px 0; }
 }
 
 .lead {
   font-size: 24px;
+  margin-bottom: 12px;
 }
 
 .form-group {
@@ -54,5 +73,26 @@ span.big-number {
 label {
   font-weight: normal;
 }
+
+ul.profile-results {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+  > li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+    > p { margin: 0; }
+    div.contact-form {
+      margin-top: 10px;
+      padding: 10px 0;
+      border-top: 1px solid #ccc;
+      ul {
+        margin: 9px 0;
+      }
+    }
+  }
+  > li:first-child { border-top: 1px solid #ccc; }
+}
+
 
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic);
