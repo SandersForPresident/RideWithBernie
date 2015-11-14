@@ -8,19 +8,22 @@ ridewithbernie.config([ '$routeProvider',
   ($routeProvider)->
     $routeProvider
       .when '/',
-        templateUrl: "helloWorld.html"
-        controller: 'HelloWorldController'
-      .when '/goodbye',
-        templateUrl: "goodbyeWorld.html"
-        controller: 'GoodbyeWorldController'
+        templateUrl: "instructions.html"
+        controller: 'InstructionsController'
+      .when '/profile',
+        templateUrl: "profile.html"
+        controller: 'ProfileController'
 ])
 
 controllers = angular.module('controllers',[])
 
-controllers.controller("HelloWorldController", [ '$scope', ($scope) ->
-  $scope.name = ['Buster', 'Gob', 'Michael', 'Tobias'][Math.floor(Math.random() * 4)]
+controllers.controller("InstructionsController", [ '$scope', ($scope) ->
+  $scope.eventTitle = "Tabling at UC Berkeley Sproul Plaza"
+  $scope.eventId = 123
 ])
 
-controllers.controller("GoodbyeWorldController", [ '$scope', ($scope) ->
-  $scope.name = ['Buster', 'Gob', 'Michael', 'Tobias'][Math.floor(Math.random() * 4)]
+controllers.controller("ProfileController", [ '$scope', ($scope) ->
+  $scope.eventTitle = "Tabling at UC Berkeley Sproul Plaza"
+  $scope.eventId = 123
+  $scope.profile = {}
 ])

@@ -14,3 +14,45 @@
  *= require_tree .
  *= require_self
  */
+
+html, body {
+  font-size: 19px;
+}
+
+small, .help-block {
+  font-size: 16px;
+}
+
+.header {
+  padding: 5px;
+  text-align: center;
+  border-bottom: 1px solid #333;
+  margin-bottom: 20px;
+  small { font-size: 12px; }
+}
+
+span.big-number {
+  padding: 5px;
+  background-color: #147FDF;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 50%;
+}
+
+.instructions table {
+  td { padding: 5px 5px 20px; }
+}
+
+.lead {
+  font-size: 24px;
+}
+
+.form-group {
+  margin-bottom: 31px;
+}
+
+label {
+  font-weight: normal;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic);
