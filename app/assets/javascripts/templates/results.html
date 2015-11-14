@@ -23,25 +23,28 @@
 
       <ul class='profile-results'>
         <li ng-repeat='profile in profiles | filter: searchFilter' class='profile-result'>
-          <a href class='btn btn-success btn-sm disabled pull-right' ng-if='profile.contacted'>
-            <i class='fa fa-check'></i>
-            Contacted
-          </a>
-          <a href class='btn btn-info btn-sm pull-right' ng-if='!profile.contacted' ng-click='profile.contactFormOpen = !profile.contactFormOpen'>
-            {{ profile.contactFormOpen ? "Cancel" : "Contact" }}
-          </a>
-          <p>
+          <p class='clearfix'>
+            <a href class='btn btn-success btn-sm disabled pull-right' ng-if='profile.contacted'>
+              <i class='fa fa-check'></i>
+              Contacted
+            </a>
+            <a href class='btn btn-info btn-sm pull-right' ng-if='!profile.contacted' ng-click='profile.contactFormOpen = !profile.contactFormOpen'>
+              {{ profile.contactFormOpen ? "Cancel" : "Contact" }}
+            </a>
+
             {{profile.firstName}}
-            <small class='text-muted' ng-if='profile.driver'>
-              <ng-pluralize count='profile.spots' when=" { 0: '', 1: '1 spot', other: '{} spots' } "></ng-pluralize>
-            </small>
-            <small class='text-muted' ng-if='!profile.driver'>
-              <ng-pluralize count='profile.plus_ones' when=" { 0: '', 1: '+1 other', other: '+{} others' } "></ng-pluralize>
-            </small>
-            <br>
+          </p>
+          <p>
             <small>{{profile.location}}</small>
             <br>
-            <small class='text-muted'>{{profile.driver ? "Driver" : "Passenger"}}</small>
+            <small class='text-muted' ng-if='profile.driver'>
+              Driver
+              <ng-pluralize count='profile.spots' when=" { 0: '', 1: 'with 1 spot', other: 'with {} spots' } "></ng-pluralize>
+            </small>
+            <small class='text-muted' ng-if='!profile.driver'>
+              Passenger
+              <ng-pluralize count='profile.plus_ones' when=" { 0: '', 1: 'with 1 other', other: 'with {} others' } "></ng-pluralize>
+            </small>
           </p>
           <div ng-show='profile.contactFormOpen' class='contact-form'>
             <p>

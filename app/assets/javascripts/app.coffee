@@ -58,7 +58,7 @@ controllers.controller("ResultsController", [ '$scope', ($scope) ->
     driver: true
     spots: 1
     firstName: 'Stevey'
-    location: 'Uptown Oakland'
+    location: 'Uptown Oakland near the 7/11'
     contacted: true
   ,
     driver: false
