@@ -11,23 +11,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151114193157) do
+ActiveRecord::Schema.define(version: 20151118042843) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "event_memberships", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "event_id"
+    t.integer  "spots"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "event_memberships", ["event_id"], name: "index_event_memberships_on_event_id", using: :btree
+  add_index "event_memberships", ["user_id"], name: "index_event_memberships_on_user_id", using: :btree
+
+  create_table "events", force: :cascade do |t|
+    t.string   "title"
+    t.string   "location"
+    t.datetime "event_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "profiles", force: :cascade do |t|
     t.string   "first_name"
     t.boolean  "driver"
     t.string   "phone"
     t.string   "location"
-    t.integer  "spots"
     t.integer  "plus_ones"
-    t.string   "eventId"
-    t.string   "eventTitle"
     t.string   "uuid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "profiles", ["phone"], name: "index_profiles_on_phone", using: :btree
 
 end

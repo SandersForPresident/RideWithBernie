@@ -1,4 +1,7 @@
 class Profile < ActiveRecord::Base
+  has_many :event_memberships
+  has_many :events, through: :event_memberships
+
   before_create :set_uuid
 
 protected
