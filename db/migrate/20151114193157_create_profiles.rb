@@ -9,7 +9,7 @@ class CreateProfiles < ActiveRecord::Migration
       t.integer :plus_ones
       t.string :eventId
       t.string :eventTitle
-      t.string :uuid
+      t.string :uuid, index: true, unique: true
 
       t.timestamps null: false
     end

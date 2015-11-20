@@ -10,12 +10,24 @@ ridewithbernie.config([ '$routeProvider',
       .when '/',
         templateUrl: "instructions.html"
         controller: 'InstructionsController'
-      .when '/profile',
+      .when '/profiles/new',
+        templateUrl: "profile_form.html"
+        controller: 'NewProfileController'
+      .when '/profiles/:uuid/edit',
+        templateUrl: "profile_form.html"
+        controller: "EditProfileController"
+      .when '/profiles/:uuid',
         templateUrl: "profile.html"
-        controller: 'ProfileController'
+        controller: "ShowProfileController"
       .when '/profiles/:uuid/results',
         templateUrl: "results.html"
         controller: 'ResultsController'
+      .when '/events/:id',
+        templateUrl: "events_show.html"
+        controller: 'ShowEventsController'
+      .when '/events',
+        templateUrl: "events_index.html"
+        controller: 'EventsController'
 ])
 
 controllers = angular.module('controllers',[])
@@ -25,19 +37,63 @@ controllers.controller("InstructionsController", [ '$scope', ($scope) ->
   $scope.eventId = 123
 ])
 
-controllers.controller("ProfileController", [ '$scope', '$location', '$http', ($scope, $location, $http) ->
+controllers.controller("NewProfileController", [ '$scope', '$location', '$routeParams', '$http', ($scope, $location, $routeParams, $http) ->
+  $scope.eventTitle = $routeParams.eventTitle || ''
+  $scope.eventId = $routeParams.eventId || ''
+
+  $scope.profile = {
+    new_record: true
+  }
+  console.log($scope.profile);
+  $scope.save = ->
+    window.Profile = $scope.profile
+    $http.post "/profiles", { profile: $scope.profile }
+    .then (response) ->
+      if $scope.eventId
+        $location.path "/events/#{$scope.eventId}"
+      else
+        $location.path "/events"
+      # $location.path "/profiles/#{response.data.uuid}/results"
+    , (data) -> #error!
+      alert "Error!"
+])
+
+controllers.controller("EditProfileController", [ '$scope', '$location', '$routeParams', '$http', ($scope, $location, $routeParams, $http) ->
+  $http.get "/profiles/#{$routeParams.uuid}", {}
+  .then (response) ->
+    window.Profile = response.data
+    $scope.profile = response.data
+    $scope.profile.new_record = false
+  , (data) ->
+    alert "Error!"
   $scope.eventTitle = "Tabling at UC Berkeley Sproul Plaza"
   $scope.eventId = 123
-  $scope.profile = {
-    newRecord: true
-  }
+
   $scope.save = ->
-    if $scope.profile.newRecord
-      $http.post "/profiles", { profile: $scope.profile }
-      .then (response) ->
-        $location.path "/profiles/#{response.data.uuid}/results"
-      , (data) -> #error!
-        alert "Error!"
+    window.Profile = $scope.profile
+    $http.put "/profiles/#{$scope.profile.uuid}", { profile: $scope.profile }
+    .then (response) ->
+      $location.path "/profiles/#{response.data.uuid}/results"
+    , (data) -> #error!
+      alert "Error!"
+])
+
+controllers.controller("ShowProfileController", [ '$scope', '$location', '$routeParams', '$http', ($scope, $location, $routeParams, $http) ->
+  $http.get "/profiles/#{$routeParams.uuid}", {}
+  .then (response) ->
+    window.Profile = response.data
+    $scope.profile = response.data
+  , (data) ->
+    alert "Error!"
+  $scope.eventTitle = "Tabling at UC Berkeley Sproul Plaza"
+  $scope.eventId = 123
+
+  $scope.delete = ->
+    $http.delete "/profiles/#{$scope.profile.uuid}", {}
+    .then (response) ->
+      alert "Successfully deleted your profile"
+    , (data) ->
+      alert "Error deleting your profile. Please try again later"
 ])
 
 controllers.controller("ResultsController", [ '$scope', '$routeParams', ($scope, $routeParams) ->
@@ -80,3 +136,10 @@ controllers.controller("ResultsController", [ '$scope', '$routeParams', ($scope,
   #$scope.profiles = []
 ])
 
+controllers.controller("EventsController", [ '$scope', '$location', '$routeParams', '$http', ($scope, $location, $routeParams, $http) ->
+  $location.url($location.path())
+])
+
+controllers.controller("ShowEventsController", [ '$scope', '$location', '$routeParams', '$http', ($scope, $location, $routeParams, $http) ->
+  $location.url($location.path())
+])
