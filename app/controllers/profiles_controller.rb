@@ -1,5 +1,5 @@
 class ProfilesController < ApplicationController
-  before_action :set_profile, only: [:show, :edit, :update, :destroy]
+  before_action :set_profile, only: [:show, :update, :destroy]
 
   # GET /profiles
   # GET /profiles.json
@@ -10,6 +10,11 @@ class ProfilesController < ApplicationController
   # GET /profiles/1
   # GET /profiles/1.json
   def show
+    if @profile.nil?
+      render json: {error: 'Unable to find profile with given uuid'}, status: :not_found
+    else
+      render :show, status: :ok, location: @profile
+    end
   end
 
   # GET /profiles/new
@@ -60,7 +65,15 @@ class ProfilesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_profile
-      @profile = Profile.find(params[:id])
+      # Primarily we want to find the user by a uuid...
+      # But I think there's definitely a case for finding the user by phone number
+      if params[:phone_number]
+        @profile = Profile.where(phone: params[:phone_number]).first
+      elsif params[:id]
+        @profile = Profile.where(uuid: params[:id]).first # where.first is better than find_by_uuid
+      else
+        @profile = nil
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
