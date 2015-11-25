@@ -33,28 +33,27 @@
         <p class="help-block">Which town, and what part of town?</p>
       </div>
       <div class='form-group' ng-if='profile.driver'>
-        <label for="spots">How many spots do you have?</label>
-        <select name='spots' class='form-control' ng-model='profile.spots' required='required'>
-          <option value='1'>I have room for one other</option>
-          <option value='2'>I have room for two others</option>
-          <option value='3'>I have room for three others</option>
-          <option value='4'>I have room for four others</option>
-          <option value='5'>I have room for five others</option>
-          <option value='6'>I have room for six others</option>
-          <option value='7'>I have room for seven others</option>
+        <label for="seats">How many extra seats do you have?</label>
+        <select name='seats' class='form-control' ng-model='profile.seats' required='required'>
+          <option selected value='1'>1</option>
+          <option value='2'>2</option>
+          <option value='3'>3</option>
+          <option value='4'>4</option>
+          <option value='5'>5</option>
+          <option value='6'>6</option>
+          <option value='7'>7</option>
         </select>
       </div>
       <div class='form-group' ng-if='!profile.driver'>
-        <label for="plus_ones">Are you traveling with others?</label>
-        <select name='plus_ones' class='form-control' ng-model='profile.plus_ones' required='required'>
-          <option value='0'>No, I just need a ride myself</option>
-          <option value='1'>Yup, I'm traveling with 1 other</option>
-          <option value='2'>Yup, I'm traveling with 2 others</option>
-          <option value='3'>Yup, I'm traveling with 3 others</option>
-          <option value='4'>Yup, I'm traveling with 4 others</option>
-          <option value='5'>Yup, I'm traveling with 5 others</option>
-          <option value='6'>Yup, I'm traveling with 6 others</option>
-          <option value='7'>Yup, I'm traveling with 7 others</option>
+        <label for="passengers">How many total passengers? (including yourself)</label>
+        <select name='passengers' class='form-control' ng-model='profile.passengers' required='required'>
+          <option selected value='1'>1</option>
+          <option value='2'>2</option>
+          <option value='3'>3</option>
+          <option value='4'>4</option>
+          <option value='5'>5</option>
+          <option value='6'>6</option>
+          <option value='7'>7</option>
         </select>
       </div>
       <div class='form-group'>
