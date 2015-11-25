@@ -30,14 +30,42 @@ controllers.controller("ProfileController", [ '$scope', '$location', '$http', ($
   $scope.eventId = 123
   $scope.profile = {
     newRecord: true
+    spots: '1'
+    plus_ones: '0'
   }
+
+  # Most validation and error code taken from: 
+  # http://fdietz.github.io/recipes-with-angular-js/backend-integration-with-ruby-on-rails/validating-forms-server-side.html
+
+  $scope.errorClass = (col) ->
+    s = $scope.profileForm[col]
+    if s.$invalid and s.$dirty then "has-error" else ""
+  
+  $scope.errorMessage = (col) ->
+    errors = []
+    return unless $scope.profileForm?[col]?.$error
+    col_name = col.charAt(0).toUpperCase() + col.slice(1)
+    col_name = col_name.replace '_', ' '
+    errors.push "#{col_name} #{k}." for k,v of $scope.profileForm[col].$error
+    errors.join " "
+  
+
+  # Save code written from scratch
   $scope.save = ->
-    if $scope.profile.newRecord
-      $http.post "/profiles", { profile: $scope.profile }
-      .then (response) ->
-        $location.path "/profiles/#{response.data.uuid}/results"
-      , (data) -> #error!
-        alert "Error!"
+    url = if $scope.profile.newRecord then "/profiles" else "/profiles/#{$scope.profile.uuid}"
+
+    onSuccess = -> $location.path "/profiles/#{response.data.uuid}/results"
+    onError = (response) ->
+      console.log response
+      for col, errors of response.data
+        for error in errors
+          $scope.profileForm[col].$dirty = true
+          $scope.profileForm[col].$setValidity error, false
+
+    # Send it!
+    $http.post url, { profile: $scope.profile } 
+    .then onSuccess, onError
+
 ])
 
 controllers.controller("ResultsController", [ '$scope', '$routeParams', ($scope, $routeParams) ->

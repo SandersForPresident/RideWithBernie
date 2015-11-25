@@ -8,33 +8,53 @@
     <p class='lead text-center'>
       My Profile
     </p>
-    <form ng-submit='save()'>
-      <div class='form-group'>
+    <form name='profileForm' ng-submit='save()'>
+
+      <div class='form-group' ng-class="errorClass('driver')">
         <p> Can you drive? </p>
         <label class="radio-inline">
-          <input type="radio" name="driver" ng-model='profile.driver' ng-value='true' value="true" required='required'> Yes
+          <input type="radio" name="driver" ng-model='profile.driver'
+                 ng-value='true' value="true" required='required'
+                 ng-change='profileForm.driver.$dirty = false'> Yes
         </label>
         <label class="radio-inline">
-          <input type="radio" name="driver" ng-model='profile.driver' ng-value='false' value="false" required='required'> No
+          <input type="radio" name="driver" ng-model='profile.driver'
+                 ng-value='false' value="false" required='required'
+                 ng-change='profileForm.driver.$dirty = false'> No
         </label>
+        <p class="help-block" ng-show="profileForm.driver.$invalid && profileForm.driver.$dirty"> {{errorMessage('driver')}} </span>
       </div>
-      <div class='form-group'>
-        <label for="firstName">What's your first name?</label>
-        <input type="text" class="form-control" name="firstName" ng-model='profile.firstName' required='required'>
+
+      <div class='form-group' ng-class="errorClass('first_name')">
+        <label for="first_name">What's your first name?</label>
+        <input type="text" class="form-control" name="first_name"
+               ng-model='profile.first_name' required='required'
+               ng-change='profileForm.first_name.$dirty = false'>
+        <p class="help-block" ng-show="profileForm.first_name.$invalid && profileForm.first_name.$dirty"> {{errorMessage('first_name')}} </span>
       </div>
-      <div class='form-group'>
+
+      <div class='form-group' ng-class="errorClass('phone')">
         <label for="phone">What's your cell phone number?</label>
-        <input type="tel" class="form-control" name="phone" ng-model='profile.phone' required='required'>
-        <p class="help-block">We’ll need to send you text messages.</p>
+        <input type="tel" class="form-control" name="phone"
+               ng-model='profile.phone' required='required'
+               ng-change='profileForm.phone.$dirty = false'>
+        <p class="help-block" ng-show="profileForm.phone.$invalid && profileForm.phone.$dirty"> {{errorMessage('phone')}} </span>
+        <p class="help-block text-muted">We’ll need to send you text messages.</p>
       </div>
-      <div class='form-group'>
+
+      <div class='form-group' ng-class="errorClass('location')">
         <label for="location">Where are you leaving from?</label>
-        <input type="text" class="form-control" name="location" ng-model='profile.location' required='required'>
-        <p class="help-block">Which town, and what part of town?</p>
+        <input type="text" class="form-control" name="location"
+               ng-model='profile.location' required='required'
+               ng-change='profileForm.location.$dirty = false'>
+        <p class="help-block" ng-show="profileForm.location.$invalid && profileForm.location.$dirty"> {{errorMessage('location')}} </span>
+        <p class="help-block text-muted">Which town, and what part of town?</p>
       </div>
-      <div class='form-group' ng-if='profile.driver'>
+
+      <div class='form-group' ng-if='profile.driver !== undefined && profile.driver' ng-class="errorClass('spots')">
         <label for="spots">How many spots do you have?</label>
-        <select name='spots' class='form-control' ng-model='profile.spots' required='required'>
+        <select name='spots' class='form-control' ng-model='profile.spots'
+                required='required' ng-change='profileForm.spots.$dirty = false'>
           <option value='1'>I have room for one other</option>
           <option value='2'>I have room for two others</option>
           <option value='3'>I have room for three others</option>
@@ -43,10 +63,13 @@
           <option value='6'>I have room for six others</option>
           <option value='7'>I have room for seven others</option>
         </select>
+        <span class="help-block" ng-show="profileForm.spots.$invalid && profileForm.spots.$dirty"> {{errorMessage('spots')}} </span>
       </div>
-      <div class='form-group' ng-if='!profile.driver'>
+
+      <div class='form-group' ng-if='profile.driver !== undefined && !profile.driver' ng-class="errorClass('plus_ones')">
         <label for="plus_ones">Are you traveling with others?</label>
-        <select name='plus_ones' class='form-control' ng-model='profile.plus_ones' required='required'>
+        <select name='plus_ones' class='form-control' ng-model='profile.plus_ones'
+                required='required' ng-change='profileForm.plus_ones.$dirty = false'>
           <option value='0'>No, I just need a ride myself</option>
           <option value='1'>Yup, I'm traveling with 1 other</option>
           <option value='2'>Yup, I'm traveling with 2 others</option>
@@ -56,11 +79,18 @@
           <option value='6'>Yup, I'm traveling with 6 others</option>
           <option value='7'>Yup, I'm traveling with 7 others</option>
         </select>
+        <span class="help-block" ng-show="profileForm.plus_ones.$invalid && profileForm.plus_ones.$dirty"> {{errorMessage('plus_ones')}} </span>
       </div>
+
+      <div class='form-group text-danger' ng-if='profileForm.$invalid && profileForm.$dirty'>
+        <p>Please fix the errors above.</p>
+      </div>
+
       <div class='form-group'>
         <button class='btn btn-danger btn-block btn-lg' ng-if='!profile.newRecord' ng-click='delete()'>Delete my profile</button>
         <button class='btn btn-success btn-block btn-lg'>Save</button>
       </div>
+
     </form>
   </div>
 </div>
