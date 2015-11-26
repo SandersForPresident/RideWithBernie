@@ -42,6 +42,7 @@ angular.module("ridewithbernie").service "Db", ->
       delete db[key] if db.hasOwnProperty(key) and key isnt 'save' and key isnt 'clear'
     db.save()
 
+  db.profiles ||= []
   return db 
 
 
@@ -55,20 +56,34 @@ controllers.controller("InstructionsController", [ '$scope', '$routeParams', '$l
     $scope.event_title = $routeParams.event_title
     $scope.event_id = $routeParams.event_id
   else
-    $location.path "/"
+    $location.path("/").search {}
 
   $scope.next = ->
-    $location.path("profile").search { event_id: $routeParams.event_id, event_title: $routeParams.event_title }
+    $location.path("profile").search { event_id: $scope.event_id, event_title: $scope.event_title }
 ])
 
-controllers.controller("ProfileController", [ '$scope', '$location', '$http', '$routeParams', ($scope, $location, $http, $routeParams) ->
+controllers.controller("ProfileController", [ '$scope', '$location', '$http', '$routeParams', 'Db', ($scope, $location, $http, $routeParams, Db) ->
+  # Check if we already stored a profile for this event
+  if profile = _.findWhere(Db.profiles, event_id: $routeParams.event_id)
+    # if so, just redirect there
+    $location.path("/profile/#{profile.uuid}").search {}
+
+  # editing an existing profile
   if $routeParams.uuid?.length
 
-    onError = (response) -> alert "Sorry, we couldn't find your profile!"
+    onError = (response) ->
+      alert "Sorry, we couldn't find your profile!"
+      # Remove this profile from the database, if it's there!
+      Db.profiles = _.reject Db.profiles, ((p) -> p.uuid is $routeParams.uuid)
+      Db.save()
+      $location.path('/').search {}
+
     onProfileSuccess = (response) -> $scope.profile = response.data
+
     $http.get "/profiles/#{$routeParams.uuid}.json"
     .then onProfileSuccess, onError
 
+  # creating a new one? we need the event details
   else if $routeParams.event_title?.length && $routeParams.event_id?.length
 
     $scope.profile =
@@ -78,32 +93,29 @@ controllers.controller("ProfileController", [ '$scope', '$location', '$http', '$
       event_title: $routeParams.event_title
       event_id: $routeParams.event_id
 
+  # no event details? that's a problem
   else
-    $location.path "/"
+    $location.path("/").search {}
 
 
-
-  $scope.delete = ->
-    $scope.state = {deleting: true}
-
-    onSuccess = (response) ->
-      $scope.state.saving = false
-      alert "Profile deleted!"
-      $location.path "/"
-
-    onError = (response) ->
-      alert "Sorry, we weren't able to delete the profile. Perhaps try refreshing, as it may already have been deleted!"
-
-    # Send it!
-    url = "/profiles/#{$scope.profile.uuid}.json"
-    $http.delete(url).then onSuccess, onError
+  $scope.back = ->
+    $location.path('/instructions').search event_id: $scope.profile.event_id, event_title: $scope.profile.event_title
 
   $scope.save = ->
     $scope.state = {saving: true}
 
     onSuccess = (response) ->
-      $location.path "/profiles/#{response.data.uuid}/search"
+      profile = response.data
+      # remove this profile if is exists already
+      Db.profiles = _.reject Db.profiles, ((p) -> p.uuid is profile.uuid)
+      # Add it back!
+      Db.profiles.push profile
+      Db.save()
+
+      # Head to matches!
+      $location.path("/profiles/#{response.data.uuid}/search").search {}
       $scope.state.saving = false
+
 
     onError = (response) ->
       # A simple $scope.errors object holds all errors, and is easy to look up in the template
@@ -125,12 +137,36 @@ controllers.controller("ProfileController", [ '$scope', '$location', '$http', '$
     $http.post url, { profile: $scope.profile } 
     .then onSuccess, onError
 
+  $scope.delete = ->
+    $scope.state = {deleting: true}
+
+    onSuccess = (response) ->
+      $scope.state.saving = false
+      alert "Profile deleted!"
+      # Remove this profile from the database, if it's there!
+      Db.profiles = _.reject Db.profiles, ((p) -> p.uuid is $scope.profile.uuid)
+      Db.save()
+      $location.path('/').search {}
+
+    onError = (response) ->
+      alert "Sorry, we weren't able to delete the profile. Perhaps try refreshing, as it may already have been deleted!"
+
+    # Send it!
+    url = "/profiles/#{$scope.profile.uuid}.json"
+    $http.delete(url).then onSuccess, onError
+
 ])
 
 controllers.controller("SearchController", [ '$scope', '$routeParams', '$http', ($scope, $routeParams, $http) ->
   $scope.search = { type: 'drivers' }
 
-  onError = (response) -> alert "Sorry, we couldn't find your profile!"
+  onError = (response) ->
+    alert "Sorry, we couldn't find your profile!"
+    # Remove this profile from the database, if it's there!
+    Db.profiles = _.reject Db.profiles, ((p) -> p.uuid is $routeParams.uuid)
+    Db.save()
+    $location.path('/').search {}
+
   onProfileSuccess = (response) ->
     $scope.profile = response.data
     $scope.search.type = if $scope.profile.driver then 'passengers' else 'drivers'

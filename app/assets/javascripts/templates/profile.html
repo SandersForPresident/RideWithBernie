@@ -3,8 +3,8 @@
     <div class='header'>
       <small>Ridesharing to {{profile.event_title}}</small>
     </div>
-    <a ng-href="#/profiles/{{profile.uuid}}/search" class='btn btn-info btn-sm pull-right' ng-if='!profile.newRecord'>Cancel &raquo;</a>
-    <a href="#/" class='btn btn-info btn-sm'>&laquo; How it works</a>
+    <!--<a ng-href="#/profiles/{{profile.uuid}}/search" class='btn btn-info btn-sm pull-right' ng-if='!profile.newRecord'>Cancel &raquo;</a>-->
+    <a href ng-click='back()' class='btn btn-info btn-sm'>&laquo; How it works</a>
     <p class='lead text-center'>
       Profile
     </p>
@@ -81,13 +81,20 @@
       </div>
 
       <div class='form-group'>
-        <button class='btn btn-danger btn-block btn-lg' ng-if='!profile.newRecord'
+
+        <a ng-href="#/profiles/{{profile.uuid}}/search" class='btn btn-default btn-block btn-lg' ng-if='!profile.newRecord'>
+          Cancel
+        </a>
+
+        <a class='btn btn-danger btn-block btn-lg' ng-if='!profile.newRecord'
                 ng-disabled="state.saving || state.deleting" ng-click='delete()'>
           {{ state.deleting ? 'Deleting...' : 'Delete my profile' }}
-        </button>
+        </a>
+
         <button class='btn btn-success btn-block btn-lg' ng-disabled="state.saving || state.deleting">
           {{ state.saving ? 'Saving...' : 'Save' }}
         </button>
+
       </div>
 
     </form>

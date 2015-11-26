@@ -7,6 +7,8 @@ class Profile < ActiveRecord::Base
   validates :passengers, inclusion: 1..10, if: -> { !driver }
   validate :lookup_phone, if: -> { phone.present? }
 
+  after_save :send_shortlink, if: -> { phone_changed? }
+
   def contact(other_profile)
 
     if !other_profile.driver?
@@ -32,8 +34,6 @@ class Profile < ActiveRecord::Base
     end
     msg.gsub!(/[\s\n\r]+/, ' ')
 
-    require 'twilio-ruby'
-
     client = Twilio::REST::Client.new
     client.messages.create(
       from: ENV['TWILIO_PHONE_NUMBER'],
@@ -46,7 +46,6 @@ class Profile < ActiveRecord::Base
 protected
 
   def lookup_phone
-    require 'twilio-ruby'
     # Code here mostly from https://github.com/twilio/twilio-ruby/blob/c4ffe31cbd73f15a961d70d134a09adc3cee88b8/docs/usage/lookups.rst
 
     # set up a client to talk to the Twilio REST API
@@ -60,8 +59,22 @@ protected
       self.phone = number.national_format
     rescue Twilio::REST::RequestError => e
       raise e unless e.code == 20404 # ensure this is a 404 error
-      self.errors[:phone] << "doesn't look right. Make sure to include a zip code"
+      self.errors[:phone] << "doesn't look right. Make sure to include an area code"
     end
+  end
+
+  def send_shortlink
+
+    url = Bitly.client.shorten("https://ridewithbernie.herokuapp.com/#/profile/#{self.uuid}/search").short_url
+
+    msg = "Thanks for signing up for Ride with Bernie! You can always get back to your profile here: #{url}"
+
+    client = Twilio::REST::Client.new
+    client.messages.create(
+      from: ENV['TWILIO_PHONE_NUMBER'],
+      to: self.phone,
+      body: msg
+    )
   end
 
   def set_uuid
