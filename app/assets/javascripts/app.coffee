@@ -13,9 +13,12 @@ ridewithbernie.config([ '$routeProvider',
       .when '/profile',
         templateUrl: "profile.html"
         controller: 'ProfileController'
-      .when '/profiles/:uuid/results',
-        templateUrl: "results.html"
-        controller: 'ResultsController'
+      .when '/profile/:uuid',
+        templateUrl: "profile.html"
+        controller: 'ProfileController'
+      .when '/profiles/:uuid/search',
+        templateUrl: "search.html"
+        controller: 'SearchController'
 ])
 
 controllers = angular.module('controllers',[])
@@ -25,57 +28,84 @@ controllers.controller("InstructionsController", [ '$scope', ($scope) ->
   $scope.eventId = 123
 ])
 
-controllers.controller("ProfileController", [ '$scope', '$location', '$http', ($scope, $location, $http) ->
+controllers.controller("ProfileController", [ '$scope', '$location', '$http', '$anchorScroll', '$routeParams', ($scope, $location, $http, $anchorScroll, $routeParams) ->
   $scope.eventTitle = "Tabling at UC Berkeley Sproul Plaza"
   $scope.eventId = 123
-  $scope.profile = {
-    newRecord: true
-    spots: '1'
-    plus_ones: '0'
-  }
 
-  # Most validation and error code taken from: 
-  # http://fdietz.github.io/recipes-with-angular-js/backend-integration-with-ruby-on-rails/validating-forms-server-side.html
+  if $routeParams.uuid?.length
 
-  $scope.errorClass = (col) ->
-    s = $scope.profileForm[col]
-    if s.$invalid and s.$dirty then "has-error" else ""
-  
-  $scope.errorMessage = (col) ->
-    errors = []
-    return unless $scope.profileForm?[col]?.$error
-    col_name = col.charAt(0).toUpperCase() + col.slice(1)
-    col_name = col_name.replace '_', ' '
-    errors.push "#{col_name} #{k}." for k,v of $scope.profileForm[col].$error
-    errors.join " "
-  
+    onError = (response) -> alert "Sorry, we couldn't find your profile!"
+    onProfileSuccess = (response) -> $scope.profile = response.data
+    $http.get "/profiles/#{$routeParams.uuid}.json"
+    .then onProfileSuccess, onError
 
-  # Save code written from scratch
-  $scope.save = ->
-    url = if $scope.profile.newRecord then "/profiles" else "/profiles/#{$scope.profile.uuid}"
+  else
 
-    onSuccess = -> $location.path "/profiles/#{response.data.uuid}/results"
+    $scope.profile =
+      newRecord: true
+      spots: 1
+      plus_ones: 0
+
+
+  $scope.delete = ->
+    $scope.state = {deleting: true}
+
+    onSuccess = (response) ->
+      $scope.state.saving = false
+      alert "Profile deleted!"
+      $location.path "/"
+
     onError = (response) ->
-      console.log response
-      for col, errors of response.data
-        for error in errors
-          $scope.profileForm[col].$dirty = true
-          $scope.profileForm[col].$setValidity error, false
+      alert "Sorry, we weren't able to delete the profile. Perhaps try refreshing, as it may already have been deleted!"
 
     # Send it!
+    url = "/profiles/#{$scope.profile.uuid}.json"
+    $http.delete(url).then onSuccess, onError
+
+  $scope.save = ->
+    $scope.state = {saving: true}
+
+    onSuccess = (response) ->
+      $location.path "/profiles/#{response.data.uuid}/search"
+      $scope.state.saving = false
+
+    onError = (response) ->
+      # A simple $scope.errors object holds all errors, and is easy to look up in the template
+      $scope.errors = {fullMessages: []}
+
+      for col, errors of response.data
+        $scope.errors[col] = true
+        formatted_name = col.charAt(0).toUpperCase() + col.slice(1)
+        formatted_name = formatted_name.replace '_', ' '
+        for error in errors
+          $scope.errors.fullMessages.push "#{formatted_name} #{error}"
+      $scope.state.saving = false
+      # Scroll to errors!
+      $location.hash('errors')
+      $anchorScroll()
+
+    # Send it!
+    url = if $scope.profile.newRecord then "/profiles.json" else "/profiles/#{$scope.profile.uuid}.json"
     $http.post url, { profile: $scope.profile } 
     .then onSuccess, onError
 
 ])
 
-controllers.controller("ResultsController", [ '$scope', '$routeParams', ($scope, $routeParams) ->
-  #$http.get "/profiles/#{$routeParams.uuid}"
-  $scope.eventTitle = "Tabling at UC Berkeley Sproul Plaza"
-  $scope.eventId = 123
+controllers.controller("SearchController", [ '$scope', '$routeParams', '$http', ($scope, $routeParams, $http) ->
   $scope.search = { type: 'drivers' }
+
+  onError = (response) -> alert "Sorry, we couldn't find your profile!"
+  onProfileSuccess = (response) ->
+    $scope.profile = response.data
+    $scope.search.type = if $scope.profile.driver then 'passengers' else 'drivers'
+
+    $http.get "/profiles/#{$routeParams.uuid}/search.json"
+    .then ((response) -> $scope.profiles = response.data), onError
+
+  $http.get "/profiles/#{$routeParams.uuid}.json"
+  .then onProfileSuccess, onError
+
   $scope.searchFilter = (p) ->
-    console.log p.driver
-    console.log $scope.search.type
     return false if $scope.search.type is 'drivers' and !p.driver
     return false if $scope.search.type is 'passengers' and p.driver
     return true
@@ -83,28 +113,13 @@ controllers.controller("ResultsController", [ '$scope', '$routeParams', ($scope,
   $scope.closeContactForms = ->
     p.contactFormOpen = false for p in $scope.profiles
 
-  $scope.profiles = [
-    driver: true
-    spots: 2
-    firstName: 'Moe'
-    location: 'Downtown Oakland'
-  ,
-    driver: true
-    spots: 1
-    firstName: 'Stevey'
-    location: 'Uptown Oakland near the 7/11'
-    contacted: true
-  ,
-    driver: false
-    plus_ones: 0
-    firstName: 'Lucy'
-    location: 'Downtown Berkeley'
-  ,
-    driver: false
-    plus_ones: 3
-    firstName: 'Dave'
-    location: 'West Oakland'
-  ]
-  #$scope.profiles = []
+  $scope.contact = (otherProfile) ->
+    onError = (response) -> alert "Sorry, we were unable to contact that volunteer!"
+    onSuccess = (response) ->
+      alert "#{otherProfile.first_name} has been sent your contact info!"
+      otherProfile.contactFormOpen = false
+
+    $http.post "/profiles/#{$scope.profile.uuid}/contact/#{otherProfile.id}.json"
+    .then onSuccess, onError
 ])
 

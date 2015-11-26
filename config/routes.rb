@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  get '/profiles/:uuid', to: 'profiles#show'
+  get '/profiles/:uuid/search', to: 'profiles#search'
+  post '/profiles/:uuid', to: 'profiles#update'
+  delete '/profiles/:uuid', to: 'profiles#destroy'
+  post '/profiles/:uuid/contact/:profile_id', to: 'profiles#contact'
   resources :profiles, :defaults => { :format => :json }
 
   # The priority is based upon order of creation: first created -> highest priority.
