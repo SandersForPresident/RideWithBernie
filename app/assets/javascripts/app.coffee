@@ -157,7 +157,7 @@ controllers.controller("ProfileController", [ '$scope', '$location', '$http', '$
 
 ])
 
-controllers.controller("SearchController", [ '$scope', '$routeParams', '$http', 'Db', ($scope, $routeParams, $http, Db) ->
+controllers.controller("SearchController", [ '$scope', '$routeParams', '$http', 'Db', '$location', ($scope, $routeParams, $http, Db, $location) ->
   $scope.search = { type: 'drivers' }
 
   onError = (response) ->
