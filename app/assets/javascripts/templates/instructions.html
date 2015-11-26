@@ -1,7 +1,10 @@
 <div class="row instructions">
   <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
     <div class='header'>
-      <small>Ridesharing to {{eventTitle}}</small>
+      <small>
+        Ridesharing to
+        <strong>{{event_title}}</strong>
+      </small>
     </div>
     <p class='lead text-center'>How ridesharing works</p>
     <table>
@@ -24,6 +27,6 @@
         <td>Confirm with text messages&nbsp;/ phone calls.</td>
       </tr>
     </table>
-    <a href='#/profile' class='btn btn-success btn-block btn-lg'>Got it</a>
+    <a href ng-click='next()' class='btn btn-success btn-block btn-lg'>Got it</a>
   </div>
 </div>

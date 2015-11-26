@@ -7,7 +7,10 @@ ridewithbernie = angular.module('ridewithbernie',[
 ridewithbernie.config([ '$routeProvider',
   ($routeProvider)->
     $routeProvider
-      .when '/?event_id&event_title',
+      .when '/',
+        templateUrl: "home.html"
+        controller: 'HomeController'
+      .when '/instructions',
         templateUrl: "instructions.html"
         controller: 'InstructionsController'
       .when '/profile',
@@ -19,6 +22,8 @@ ridewithbernie.config([ '$routeProvider',
       .when '/profiles/:uuid/search',
         templateUrl: "search.html"
         controller: 'SearchController'
+      .otherwise
+        redirectTo: "/"
 ])
 
 # Only one service so far, so it's easy to keep in the same file!
@@ -43,15 +48,20 @@ angular.module("ridewithbernie").service "Db", ->
 # Controllers for the rest of the file
 controllers = angular.module('controllers',[])
 
-controllers.controller("InstructionsController", [ '$scope', '$routeParams', ($scope, $routeParams) ->
-  $scope.eventTitle = "Tabling at UC Berkeley Sproul Plaza"
-  $scope.eventId = 123
-])
+controllers.controller "HomeController", (->)
 
-controllers.controller("ProfileController", [ '$scope', '$location', '$http', '$anchorScroll', '$routeParams', ($scope, $location, $http, $anchorScroll, $routeParams) ->
-  $scope.eventTitle = "Tabling at UC Berkeley Sproul Plaza"
-  $scope.eventId = 123
+controllers.controller "InstructionsController", ($scope, $routeParams, $location) ->
+  if $routeParams.event_title?.length && $routeParams.event_id?.length
+    $scope.event_title = $routeParams.event_title
+    $scope.event_id = $routeParams.event_id
+  else
+    $location.path "/"
 
+  $scope.next = ->
+    $location.path("profile").search { event_id: $routeParams.event_id, event_title: $routeParams.event_title }
+
+
+controllers.controller "ProfileController", ($scope, $location, $http, $routeParams) ->
   if $routeParams.uuid?.length
 
     onError = (response) -> alert "Sorry, we couldn't find your profile!"
@@ -59,12 +69,18 @@ controllers.controller("ProfileController", [ '$scope', '$location', '$http', '$
     $http.get "/profiles/#{$routeParams.uuid}.json"
     .then onProfileSuccess, onError
 
-  else
+  else if $routeParams.event_title?.length && $routeParams.event_id?.length
 
     $scope.profile =
       newRecord: true
       seats: 1
       passengers: 1
+      event_title: $routeParams.event_title
+      event_id: $routeParams.event_id
+
+  else
+    $location.path "/"
+
 
 
   $scope.delete = ->
@@ -100,16 +116,17 @@ controllers.controller("ProfileController", [ '$scope', '$location', '$http', '$
         formatted_name = formatted_name.replace '_', ' '
         for error in errors
           $scope.errors.fullMessages.push "#{formatted_name} #{error}"
-      # Scroll to errors!
-      $location.hash('errors')
-      $anchorScroll()
+      # angular's anchroScroll function seems to break navigation, so let's use jquery
+      $("body").animate scrollTop: 0
+      0 # return 0 so angular doesn't freak out about jquery
 
     # Send it!
     url = if $scope.profile.newRecord then "/profiles.json" else "/profiles/#{$scope.profile.uuid}.json"
     $http.post url, { profile: $scope.profile } 
     .then onSuccess, onError
 
-])
+
+
 
 controllers.controller("SearchController", [ '$scope', '$routeParams', '$http', ($scope, $routeParams, $http) ->
   $scope.search = { type: 'drivers' }
