@@ -16,7 +16,7 @@ class ProfilesController < ApplicationController
   # GET /profiles/1/search
   # GET /profiles/1/search.json
   def search
-    @profiles = Profile.all
+    @profiles = Profile.where(event_id: @profile.event_id)
     render :index
   end
 
