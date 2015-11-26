@@ -19,7 +19,7 @@ ridewithbernie.config([ '$routeProvider',
       .when '/profile/:uuid',
         templateUrl: "profile.html"
         controller: 'ProfileController'
-      .when '/profiles/:uuid/search',
+      .when '/profile/:uuid/search',
         templateUrl: "search.html"
         controller: 'SearchController'
       .otherwise
@@ -113,7 +113,7 @@ controllers.controller("ProfileController", [ '$scope', '$location', '$http', '$
       Db.save()
 
       # Head to matches!
-      $location.path("/profiles/#{response.data.uuid}/search").search {}
+      $location.path("/profile/#{response.data.uuid}/search").search {}
       $scope.state.saving = false
 
 
