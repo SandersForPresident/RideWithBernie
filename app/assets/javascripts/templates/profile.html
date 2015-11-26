@@ -3,63 +3,93 @@
     <div class='header'>
       <small>Ridesharing to {{eventTitle}}</small>
     </div>
-    <a href="#/results" class='btn btn-info btn-sm pull-right' ng-if='!profile.newRecord'>People &raquo;</a>
-    <a href="#/" class='btn btn-info btn-sm'>&laquo; Back</a>
+    <a ng-href="#/profiles/{{profile.uuid}}/search" class='btn btn-info btn-sm pull-right' ng-if='!profile.newRecord'>Cancel &raquo;</a>
+    <a href="#/" class='btn btn-info btn-sm'>&laquo; How it works</a>
     <p class='lead text-center'>
       Profile
     </p>
-    <form ng-submit='save()'>
-      <div class='form-group'>
+    <div class='alert alert-danger' ng-if='errors.fullMessages' id='errors'>
+      <ul>
+        <li ng-repeat='error in errors.fullMessages'><small>{{error}}</small></li>
+      </ul>
+    </div>
+
+    <form name='profileForm' ng-submit='save()'>
+
+      <div class='form-group' ng-class="errors['driver'] ? 'has-error' : ''">
         <p> Can you drive? </p>
         <label class="radio-inline">
-          <input type="radio" name="driver" ng-model='profile.driver' ng-value='true' value="true" required='required'> Yes
+          <input type="radio" name="driver" ng-model='profile.driver'
+                 ng-value='true' value="true" required='required'
+                 ng-change='errors.driver = false'> Yes
         </label>
         <label class="radio-inline">
-          <input type="radio" name="driver" ng-model='profile.driver' ng-value='false' value="false" required='required'> No
+          <input type="radio" name="driver" ng-model='profile.driver'
+                 ng-value='false' value="false" required='required'
+                 ng-change='errors.driver = false'> No
         </label>
       </div>
-      <div class='form-group'>
-        <label for="firstName">What's your first name?</label>
-        <input type="text" class="form-control" name="firstName" ng-model='profile.firstName' required='required'>
+
+      <div class='form-group' ng-class="errors['first_name'] ? 'has-error' : ''">
+        <label for="first_name">What's your first name?</label>
+        <input type="text" class="form-control" name="first_name"
+               ng-model='profile.first_name' required='required'
+               ng-change='errors.first_name = false'>
       </div>
-      <div class='form-group'>
+
+      <div class='form-group' ng-class="errors['phone'] ? 'has-error' : ''">
         <label for="phone">What's your cell phone number?</label>
-        <input type="tel" class="form-control" name="phone" ng-model='profile.phone' required='required'>
-        <p class="help-block">We’ll need to send you text messages.</p>
+        <input type="tel" class="form-control" name="phone"
+               ng-model='profile.phone' required='required'
+               ng-change='errors.phone = false'>
+        <p class="help-block text-muted">We’ll need to send you text messages.</p>
       </div>
-      <div class='form-group'>
+
+      <div class='form-group' ng-class="errors['location'] ? 'has-error' : ''">
         <label for="location">Where are you leaving from?</label>
-        <input type="text" class="form-control" name="location" ng-model='profile.location' required='required'>
-        <p class="help-block">Which town, and what part of town?</p>
+        <input type="text" class="form-control" name="location"
+               ng-model='profile.location' required='required'
+               ng-change='errors.location = false'>
+        <p class="help-block text-muted">Which town, and what part of town?</p>
       </div>
-      <div class='form-group' ng-if='profile.driver'>
+
+      <div class='form-group' ng-if='profile.driver !== undefined && profile.driver' ng-class="errors['seats'] ? 'has-error' : ''">
         <label for="seats">How many extra seats do you have?</label>
-        <select name='seats' class='form-control' ng-model='profile.seats' required='required'>
-          <option selected value='1'>1</option>
-          <option value='2'>2</option>
-          <option value='3'>3</option>
-          <option value='4'>4</option>
-          <option value='5'>5</option>
-          <option value='6'>6</option>
-          <option value='7'>7</option>
+        <select name='seats' class='form-control' ng-model='profile.seats' required='required' ng-change='errors.seats = false'>
+          <option ng-selected='profile.seats == 1' value='1'>1</option>
+          <option ng-selected='profile.seats == 2' value='2'>2</option>
+          <option ng-selected='profile.seats == 3' value='3'>3</option>
+          <option ng-selected='profile.seats == 4' value='4'>4</option>
+          <option ng-selected='profile.seats == 5' value='5'>5</option>
+          <option ng-selected='profile.seats == 6' value='6'>6</option>
+          <option ng-selected='profile.seats == 7' value='7'>7</option>
         </select>
       </div>
-      <div class='form-group' ng-if='!profile.driver'>
-        <label for="passengers">How many total passengers? (including yourself)</label>
-        <select name='passengers' class='form-control' ng-model='profile.passengers' required='required'>
-          <option selected value='1'>1</option>
-          <option value='2'>2</option>
-          <option value='3'>3</option>
-          <option value='4'>4</option>
-          <option value='5'>5</option>
-          <option value='6'>6</option>
-          <option value='7'>7</option>
+
+      <div class='form-group' ng-if='profile.driver !== undefined && !profile.driver' ng-class="errors['passengers'] ? 'has-error' : ''">
+        <label for="passengers">How many total passengers?</label>
+        <select name='passengers' class='form-control' ng-model='profile.passengers' required='required' ng-change='errors.passengers = false'>
+          <option ng-selected='profile.passengers == 1' value='1'>1</option>
+          <option ng-selected='profile.passengers == 2' value='2'>2</option>
+          <option ng-selected='profile.passengers == 3' value='3'>3</option>
+          <option ng-selected='profile.passengers == 4' value='4'>4</option>
+          <option ng-selected='profile.passengers == 5' value='5'>5</option>
+          <option ng-selected='profile.passengers == 6' value='6'>6</option>
+          <option ng-selected='profile.passengers == 7' value='7'>7</option>
         </select>
+        <p class='help-block text-muted'>Including yourself.</p>
       </div>
+
       <div class='form-group'>
-        <button class='btn btn-danger btn-block btn-lg' ng-if='!profile.newRecord' ng-click='delete()'>Delete my profile</button>
-        <button class='btn btn-success btn-block btn-lg'>Save</button>
+        <button class='btn btn-danger btn-block btn-lg' ng-if='!profile.newRecord'
+                ng-disabled="state.saving || state.deleting" ng-click='delete()'>
+          {{ state.deleting ? 'Deleting...' : 'Delete my profile' }}
+        </button>
+        <button class='btn btn-success btn-block btn-lg' ng-disabled="state.saving || state.deleting">
+          {{ state.saving ? 'Saving...' : 'Save' }}
+        </button>
       </div>
+
     </form>
   </div>
 </div>
