@@ -1,0 +1,91 @@
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+    <div class='header'>
+      <small>Ridesharing to {{profile.event_title}}</small>
+    </div>
+    <a ng-href="#/profile/{{profile.uuid}}" class='btn btn-info btn-sm'>&laquo; Profile</a>
+    <div ng-if='profiles.length'>
+      <p class='lead text-center'>
+        People
+      </p>
+      <p class='text-center'>
+        <small>Great! Contact any good matches below.</small>
+      </p>
+      <div class='row'>
+        <div class='col-xs-8 col-xs-offset-2'>
+          <select name='search' class='form-control' ng-model='search.type' ng-change='closeContactForms()'>
+            <option value='drivers'>Displaying drivers</option>
+            <option value='passengers'>Displaying passengers</option>
+            <option value='everyone'>Displaying everyone</option>
+          </select>
+        </div>
+      </div>
+
+      <ul class='profile-results'>
+        <li ng-repeat='p in profiles | filter: searchFilter' class='profile-result'>
+          <p class='clearfix' ng-if='p.id == profile.id'>
+            <small class='pull-right text-muted'>This is you</small>
+            {{p.first_name}}
+          </p>
+
+          <p class='clearfix' ng-if='p.id != profile.id'>
+            <a href class='btn btn-success btn-sm disabled pull-right' ng-if='p.contacted'>
+              <i class='fa fa-check'></i>
+              Contacted
+            </a>
+            <a href class='btn btn-info btn-sm pull-right' ng-if='!p.contacted' ng-click='p.contactFormOpen = !p.contactFormOpen'>
+              {{ p.contactFormOpen ? "Cancel" : "Contact" }}
+            </a>
+
+            {{p.first_name}}
+          </p>
+          <p>
+            <small>{{p.location}}</small>
+            <br>
+            <small class='text-muted' ng-if='p.driver'>
+              Driver
+              <ng-pluralize count='p.spots' when=" { 0: '', 1: 'with 1 spot', other: 'with {} spots' } "></ng-pluralize>
+            </small>
+            <small class='text-muted' ng-if='!p.driver'>
+              Passenger
+              <ng-pluralize count='p.plus_ones' when=" { 0: '', 1: 'with 1 other', other: 'with {} others' } "></ng-pluralize>
+            </small>
+          </p>
+          <div ng-show='p.contactFormOpen' class='contact-form'>
+            <p>
+              Contact {{p.first_name}}
+              <br>
+              <small>
+                We’ll send {{p.first_name}} your contact info, saying:
+                <ul>
+                  <li>You need a ride</li>
+                  <li>Your name</li>
+                  <li>Your phone number</li>
+                  <li>Your rough location</li>
+                </ul>
+                {{p.first_name}} will call or text you to coordinate further (or not). Stay safe by talking ahead of time.
+              </small>
+            </p>
+            <a href class='btn btn-danger btn-block' ng-click='contact(p)'>Send my contact info</a>
+            <a href class='btn btn-info btn-block' ng-click='p.contactFormOpen = !p.contactFormOpen'>Cancel</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div ng-if='!profiles.length'>
+      <div class='text-center'>
+        <h1> Great! </h1>
+        <p>
+          <small>
+            We’ve got your info, and we’ll let you know if anyone offers to give you a ride.
+          </small>
+        </p>
+        <br>
+        <p>
+          <small>
+            Bookmark this page to check back for new drivers. We’ve also texted you a link to get back here.
+          </small>
+        </p>
+    </div>
+  </div>
+</div>
