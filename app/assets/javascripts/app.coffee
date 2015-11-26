@@ -7,7 +7,7 @@ ridewithbernie = angular.module('ridewithbernie',[
 ridewithbernie.config([ '$routeProvider',
   ($routeProvider)->
     $routeProvider
-      .when '/',
+      .when '/?event_id&event_title',
         templateUrl: "instructions.html"
         controller: 'InstructionsController'
       .when '/profile',
@@ -21,9 +21,29 @@ ridewithbernie.config([ '$routeProvider',
         controller: 'SearchController'
 ])
 
+# Only one service so far, so it's easy to keep in the same file!
+angular.module("ridewithbernie").service "Db", ->
+  # This simple localstorage "database" is just a javascript object
+  # that can be serialized and de-serialized, and saved to the device easily
+  db = window.localStorage.getItem "ridewithbernie_database"
+  db = if db? then JSON.parse(db) else {} 
+
+  db.save = ->
+    window.localStorage.setItem "ridewithbernie_database", JSON.stringify(db)
+
+  db.clear = ->
+    # wibe the db
+    for key, val of db
+      delete db[key] if db.hasOwnProperty(key) and key isnt 'save' and key isnt 'clear'
+    db.save()
+
+  return db 
+
+
+# Controllers for the rest of the file
 controllers = angular.module('controllers',[])
 
-controllers.controller("InstructionsController", [ '$scope', ($scope) ->
+controllers.controller("InstructionsController", [ '$scope', '$routeParams', ($scope, $routeParams) ->
   $scope.eventTitle = "Tabling at UC Berkeley Sproul Plaza"
   $scope.eventId = 123
 ])
