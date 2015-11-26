@@ -8,27 +8,24 @@
       <p class='lead text-center'>
         People
       </p>
-      <p class='text-center'>
-        <small>Great! Contact any good matches below.</small>
-      </p>
       <div class='row'>
         <div class='col-xs-8 col-xs-offset-2'>
-          <select name='search' class='form-control' ng-model='search.type' ng-change='closeContactForms()'>
-            <option value='drivers'>Displaying drivers</option>
-            <option value='passengers'>Displaying passengers</option>
-            <option value='everyone'>Displaying everyone</option>
-          </select>
+          <p>
+            <select name='search' class='form-control' ng-model='search.type' ng-change='closeContactForms()'>
+              <option value='drivers'>Displaying drivers</option>
+              <option value='passengers'>Displaying passengers</option>
+              <option value='everyone'>Displaying everyone</option>
+            </select>
+          </p>
         </div>
       </div>
+      <p ng-if="(profiles | filter: searchFilter).length > 0" class='text-center'>
+        <small>Contact any good matches below.</small>
+      </p>
 
       <ul class='profile-results'>
         <li ng-repeat='p in profiles | filter: searchFilter' class='profile-result'>
-          <p class='clearfix' ng-if='p.id == profile.id'>
-            <small class='pull-right text-muted'>This is you</small>
-            {{p.first_name}}
-          </p>
-
-          <p class='clearfix' ng-if='p.id != profile.id'>
+          <p class='clearfix'>
             <a href class='btn btn-success btn-sm disabled pull-right' ng-if='p.contacted'>
               <i class='fa fa-check'></i>
               Contacted
@@ -66,26 +63,26 @@
                 {{p.first_name}} will call or text you to coordinate further (or not). Stay safe by talking ahead of time.
               </small>
             </p>
-            <a href class='btn btn-danger btn-block' ng-click='contact(p)'>Send my contact info</a>
+            <a href class='btn btn-danger btn-block' ng-disabled="state.contacting" ng-click='contact(p)'>
+              {{ state.contacting ? "Contacting..." : "Send my contact info" }}
+            </a>
             <a href class='btn btn-info btn-block' ng-click='p.contactFormOpen = !p.contactFormOpen'>Cancel</a>
           </div>
         </li>
       </ul>
     </div>
-    <div ng-if='!profiles.length'>
-      <div class='text-center'>
-        <h1> Great! </h1>
-        <p>
-          <small>
-            We’ve got your info, and we’ll let you know if anyone offers to give you a ride.
-          </small>
-        </p>
-        <br>
-        <p>
-          <small>
-            Bookmark this page to check back for new drivers. We’ve also texted you a link to get back here.
-          </small>
-        </p>
-    </div>
+    <div ng-if="(profiles | filter: searchFilter).length <= 0" class='text-center'>
+      <h1 class='text-muted'> Nobody here, yet. </h1>
+      <p>
+        <small>
+          We’ve got your info, and we’ll let you know if anyone offers to give you a ride.
+        </small>
+      </p>
+      <br>
+      <p>
+        <small>
+          Bookmark this page to check back for new drivers. We’ve also texted you a link to get back here.
+        </small>
+      </p>
   </div>
 </div>

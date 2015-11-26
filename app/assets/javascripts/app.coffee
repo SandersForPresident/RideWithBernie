@@ -167,15 +167,20 @@ controllers.controller("SearchController", [ '$scope', '$routeParams', '$http', 
     Db.save()
     $location.path('/').search {}
 
-  onProfileSuccess = (response) ->
+  onProfileFetchSuccess = (response) ->
     $scope.profile = response.data
     $scope.search.type = if $scope.profile.driver then 'passengers' else 'drivers'
 
+    onSearchResultFetchSuccess = (response) ->
+      profiles = _.reject response.data, ((p) -> p.uuid is $scope.profile.uuid)
+      p.contacted = true for p in profiles when $scope.profile.profiles_contacted?.indexOf(p.id) > -1
+      $scope.profiles = profiles
+
     $http.get "/profiles/#{$routeParams.uuid}/search.json"
-    .then ((response) -> $scope.profiles = response.data), onError
+    .then onSearchResultFetchSuccess, onError
 
   $http.get "/profiles/#{$routeParams.uuid}.json"
-  .then onProfileSuccess, onError
+  .then onProfileFetchSuccess, onError
 
   $scope.searchFilter = (p) ->
     return false if $scope.search.type is 'drivers' and !p.driver
@@ -186,10 +191,16 @@ controllers.controller("SearchController", [ '$scope', '$routeParams', '$http', 
     p.contactFormOpen = false for p in $scope.profiles
 
   $scope.contact = (otherProfile) ->
-    onError = (response) -> alert "Sorry, we were unable to contact that volunteer!"
+    $scope.state = {contacting: true}
+    onError = (response) ->
+      alert "Sorry, we were unable to contact that volunteer!"
+      $scope.state.contacting = false
     onSuccess = (response) ->
       alert "#{otherProfile.first_name} has been sent your contact info!"
+      otherProfile.contacted = true
+      $scope.profile.profiles_contacted.push(otherProfile.id)
       otherProfile.contactFormOpen = false
+      $scope.state.contacting = false
 
     $http.post "/profiles/#{$scope.profile.uuid}/contact/#{otherProfile.id}.json"
     .then onSuccess, onError

@@ -13,22 +13,19 @@ class Profile < ActiveRecord::Base
 
     if !other_profile.driver?
       msg = %[
-        Hi #{self.first_name}! 
-        #{other_profile.first_name} is driving to "#{other_profile.event_title},"
-        coming from "#{other_profile.location}," and has
-        #{other_profile.spots}
-        #{other_profile.spots > 1 ? 'spots' : 'spot'} available.
-        You can contact #{other_profile.first_name} at #{other_profile.phone} for more details.
+        RideWithBernie: Hi #{other_profile.first_name}! 
+        #{first_name} is driving to "#{event_title},"
+        coming from "#{location}," and has
+        #{seats} seat#{'s' if seats != 1} available.
+        You can contact #{first_name} at #{phone} for more details.
         We suggest a phone call to stay safe!
       ]
     else
       msg = %[
-        Hi #{self.first_name}! 
-        #{other_profile.first_name} needs a ride to "#{other_profile.event_title},"
-        coming from "#{other_profile.location}," and has
-        #{other_profile.plus_ones}
-        #{other_profile.plus_ones > 1 ? 'friends' : 'friend'}, as well.
-        If you can help out, please contact #{other_profile.first_name} at #{other_profile.phone} for more details.
+        RideWithBernie: Hi #{other_profile.first_name}! 
+        #{first_name} needs a ride to "#{event_title},"
+        coming from "#{location}," with #{passengers} total passenger#{'s' if passengers != 1}.
+        If you can help out, please contact #{first_name} at #{phone} for more details.
         We suggest a phone call to stay safe!
       ]
     end
@@ -40,7 +37,12 @@ class Profile < ActiveRecord::Base
       to: other_profile.phone,
       body: msg
     )
-        
+
+    # Store who we've contacted!
+    self.profiles_contacted ||= []
+    self.profiles_contacted << other_profile.id
+    self.profiles_contacted_will_change!
+    self.save
   end
 
 protected
@@ -67,7 +69,7 @@ protected
 
     url = Bitly.client.shorten("https://ridewithbernie.herokuapp.com/#/profile/#{self.uuid}/search").short_url
 
-    msg = "Thanks for signing up for Ride with Bernie! You can always get back to your profile here: #{url}"
+    msg = "Thanks for signing up for RideWithBernie! You can always get back to your profile here: #{url}"
 
     client = Twilio::REST::Client.new
     client.messages.create(
