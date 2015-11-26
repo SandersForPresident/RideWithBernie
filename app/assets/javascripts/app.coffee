@@ -48,9 +48,9 @@ angular.module("ridewithbernie").service "Db", ->
 # Controllers for the rest of the file
 controllers = angular.module('controllers',[])
 
-controllers.controller "HomeController", (->)
+controllers.controller("HomeController", [(->)])
 
-controllers.controller "InstructionsController", ($scope, $routeParams, $location) ->
+controllers.controller("InstructionsController", [ '$scope', '$routeParams', '$location', ($scope, $routeParams, $location) ->
   if $routeParams.event_title?.length && $routeParams.event_id?.length
     $scope.event_title = $routeParams.event_title
     $scope.event_id = $routeParams.event_id
@@ -59,9 +59,9 @@ controllers.controller "InstructionsController", ($scope, $routeParams, $locatio
 
   $scope.next = ->
     $location.path("profile").search { event_id: $routeParams.event_id, event_title: $routeParams.event_title }
+])
 
-
-controllers.controller "ProfileController", ($scope, $location, $http, $routeParams) ->
+controllers.controller("ProfileController", [ '$scope', '$location', '$http', '$routeParams', ($scope, $location, $http, $routeParams) ->
   if $routeParams.uuid?.length
 
     onError = (response) -> alert "Sorry, we couldn't find your profile!"
@@ -125,8 +125,7 @@ controllers.controller "ProfileController", ($scope, $location, $http, $routePar
     $http.post url, { profile: $scope.profile } 
     .then onSuccess, onError
 
-
-
+])
 
 controllers.controller("SearchController", [ '$scope', '$routeParams', '$http', ($scope, $routeParams, $http) ->
   $scope.search = { type: 'drivers' }
