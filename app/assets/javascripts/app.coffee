@@ -198,6 +198,7 @@ controllers.controller("SearchController", [ '$scope', '$routeParams', '$http', 
     onSuccess = (response) ->
       alert "#{otherProfile.first_name} has been sent your contact info!"
       otherProfile.contacted = true
+      $scope.profile.profiles_contacted ||= []
       $scope.profile.profiles_contacted.push(otherProfile.id)
       otherProfile.contactFormOpen = false
       $scope.state.contacting = false
