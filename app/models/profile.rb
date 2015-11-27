@@ -67,7 +67,7 @@ protected
 
   def send_shortlink
 
-    url = Bitly.client.shorten("https://ridewithbernie.herokuapp.com/#/profile/#{self.uuid}/search").short_url
+    url = Bitly.client.shorten("#{ENV['ROOT_URL']}/#/profile/#{self.uuid}/search").short_url
 
     msg = "Thanks for signing up for RideWithBernie! You can always get back to your profile here: #{url}"
 

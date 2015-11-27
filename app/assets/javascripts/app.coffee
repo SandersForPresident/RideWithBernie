@@ -211,7 +211,7 @@ controllers.controller("SearchController", [ '$scope', '$routeParams', '$http', 
 ])
 
 
-controllers.controller("BuildEventController", [ '$scope', '$http', '$location', ($scope, $http, $location) ->
+controllers.controller("BuildEventController", [ '$scope', '$http', '$location', '$window', ($scope, $http, $location, $window) ->
   $scope.event = {}
   $scope.state = {}
 
@@ -224,9 +224,7 @@ controllers.controller("BuildEventController", [ '$scope', '$http', '$location',
 
     onSuccess = (response) ->
       $scope.error = null
-      $scope.event.url = response.data.url
-      $scope.event.shortlink = response.data.shortlink
-      $scope.event.id = response.data.id
+      $scope.event = response.data
       $scope.state.saving = false
 
     $http.post "/events/generate.json", { event: $scope.event }
@@ -247,9 +245,11 @@ controllers.controller("BuildEventController", [ '$scope', '$http', '$location',
     $http.post "/events/deliver.json", { event: $scope.event }
     .then onSuccess, onError
 
-  $scope.clear = -> $scope.event = {}
+  $scope.clear = ->
+    if confirm "Make sure you've got the rideshare link!"
+      $scope.event = {}
 
   $scope.done = ->
-    if confirm "Make sure you've got the link!"
-      $location.path('/')
+    if confirm "Make sure you've got the rideshare link!"
+      $window.location = $scope.event.shortlink
 ])

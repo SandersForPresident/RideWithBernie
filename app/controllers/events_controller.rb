@@ -18,11 +18,11 @@ class EventsController < ApplicationController
     event = params[:event]
     if event[:title].present? and event[:shortlink].present? and event[:phone].present?
       begin
-        msg = "RideWithBernie - Here's the ridesharing link for your event: #{event[:shortlink]}"
+        msg = "RideWithBernie - Here's the rideshare link for your event: #{event[:shortlink]}"
         Twilio::REST::Client.new.messages.create(from: ENV['TWILIO_PHONE_NUMBER'], to: event[:phone], body: msg)
         render json: { success: true }, status: :ok
       rescue Twilio::REST::RequestError => e
-        render json: { message: "Sorry, we couldn't text that phone number! Please double check it, or write down the shortlink." }, status: :unprocessable_entity
+        render json: { message: "Sorry, we couldn't text that phone number! Please double check it, or write down the rideshare link." }, status: :unprocessable_entity
       end
     else
       render json: { message: "Please provide a phone number" }, status: :unprocessable_entity

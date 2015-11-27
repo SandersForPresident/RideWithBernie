@@ -2,14 +2,14 @@
   <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
 
     <div class='header'>
-      <small>Create new link</small>
+      <small>Create a rideshare link</small>
     </div>
 
     <a href='#/' ng-if='!event.id' class='btn btn-info btn-sm'>&laquo; Home</a>
     <a href ng-click='clear()' ng-if='event.id' class='btn btn-info btn-sm'>&laquo; Back</a>
 
     <p class='lead text-center'>
-      {{ event.id ? "Success!" : "Create a ridesharing link" }}
+      {{ event.id ? "Success!" : "Create a rideshare link" }}
     </p>
 
     <p class='text-center text-muted' ng-if='event.id.length'>
@@ -28,7 +28,7 @@
       </div>
 
       <div class='form-group' ng-if='event.shortlink.length'>
-        <label for="shortlink">Your ridesharing shortlink:</label>
+        <label for="shortlink">Your rideshare link:</label>
         <input type="text" class="form-control" name="shortlink" ng-model='event.shortlink'>
         <p class="help-block text-muted">Send this to volunteer drivers and passengers!</p>
       </div>
@@ -68,7 +68,7 @@
         <div class='form-group'>
           <label for="phone">Deal! What's your phone number?</label>
           <input type="tel" class="form-control" name="phone" ng-model='event.phone' required='required'>
-          <p class="help-block text-muted">We'll text you the shortlink right now.</p>
+          <p class="help-block text-muted">We'll text you the link right now.</p>
         </div>
 
         <div class='form-group'>
@@ -78,11 +78,16 @@
         </div>
       </div>
 
-      <div class='form-group'>
+      <p>
         <a href class='btn btn-success btn-block btn-lg' ng-click='done()'>
-          All done
+          Go to rideshare link
         </a>
-      </div>
+      </p>
+      <p>
+        <a href class='btn btn-default btn-block btn-lg' ng-click='clear()'>
+          Create another link
+        </a>
+      </p>
     </form>
 
   </div>
