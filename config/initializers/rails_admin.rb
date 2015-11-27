@@ -40,4 +40,30 @@ RailsAdmin.config do |config|
     # history_index
     # history_show
   end
+
+  config.model 'Profile' do
+    list do
+      field :first_name
+      field :driver
+      field :event_title
+      field :event_id do
+        label "Event ID"
+      end
+      field :location
+      field :profiles_contacted do
+        label "Contacted"
+        pretty_value do
+          if value.present?
+            "#{value.length} other#{'s' if value.length != 1}"
+          else
+            "0 others"
+          end
+        end
+      end
+    end
+
+    edit do
+      exclude_fields :profiles_contacted
+    end
+  end
 end
