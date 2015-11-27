@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   get '/profiles/:uuid', to: 'profiles#show', as: :profile
   get '/profiles/:uuid/search', to: 'profiles#search'
   post '/profiles', to: 'profiles#create'

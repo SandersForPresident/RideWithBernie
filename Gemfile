@@ -6,6 +6,8 @@ gem 'puma'
 
 gem 'rollbar', '~> 2.4.0'
 
+gem 'rails_admin', '~> 0.8.1'
+
 # For SMS / calls
 gem 'twilio-ruby'
 
