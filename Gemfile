@@ -4,6 +4,8 @@ ruby '2.2.3'
 
 gem 'puma'
 
+gem 'rollbar', '~> 2.4.0'
+
 # For SMS / calls
 gem 'twilio-ruby'
 
