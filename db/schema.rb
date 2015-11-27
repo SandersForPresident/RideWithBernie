@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151126185154) do
+ActiveRecord::Schema.define(version: 20151127202711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,5 +30,7 @@ ActiveRecord::Schema.define(version: 20151126185154) do
     t.datetime "updated_at",         null: false
     t.json     "profiles_contacted"
   end
+
+  add_index "profiles", ["uuid"], name: "index_profiles_on_uuid", using: :btree
 
 end
