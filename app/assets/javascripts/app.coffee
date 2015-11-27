@@ -219,10 +219,11 @@ controllers.controller("BuildEventController", [ '$scope', '$http', '$location',
     $scope.state.saving = true
 
     onError = (response) ->
-      $scope.error = response.data.message
+      $scope.error = response.data.message || "Sorry, we hit an error creating your link!"
       $scope.state.saving = false
 
     onSuccess = (response) ->
+      $scope.error = null
       $scope.event.url = response.data.url
       $scope.event.shortlink = response.data.shortlink
       $scope.event.id = response.data.id
@@ -239,6 +240,7 @@ controllers.controller("BuildEventController", [ '$scope', '$http', '$location',
       $scope.state.saving = false
       
     onSuccess = (response) ->
+      $scope.phoneError = null
       alert "Text delivered!"
       $scope.state.saving = false
 

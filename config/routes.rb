@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  get '/profiles/:uuid', to: 'profiles#show'
+  get '/profiles/:uuid', to: 'profiles#show', as: :profile
   get '/profiles/:uuid/search', to: 'profiles#search'
+  post '/profiles', to: 'profiles#create'
   post '/profiles/:uuid', to: 'profiles#update'
   delete '/profiles/:uuid', to: 'profiles#destroy'
   post '/profiles/:uuid/contact/:profile_id', to: 'profiles#contact'
