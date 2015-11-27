@@ -35,5 +35,8 @@ module RideWithBernie
     config.assets.precompile << %r(.*.(?:eot|svg|ttf|woff|woff2)$)
 
     config.active_record.raise_in_transactional_callbacks = true
+
+    # Custom directories with classes and modules you want to be autoloadable.
+    config.autoload_paths += %W(#{config.root}/lib)
   end
 end

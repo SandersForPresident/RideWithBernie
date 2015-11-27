@@ -4,7 +4,13 @@ Rails.application.routes.draw do
   post '/profiles/:uuid', to: 'profiles#update'
   delete '/profiles/:uuid', to: 'profiles#destroy'
   post '/profiles/:uuid/contact/:profile_id', to: 'profiles#contact'
-  resources :profiles, :defaults => { :format => :json }
+
+  post '/events/generate', to: 'events#generate'
+  post '/events/deliver', to: 'events#deliver'
+
+
+  # Let's not use default routes, cause we have custom ones above
+  # resources :profiles, :defaults => { :format => :json }
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

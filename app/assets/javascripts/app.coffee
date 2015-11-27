@@ -22,6 +22,9 @@ ridewithbernie.config([ '$routeProvider',
       .when '/profile/:uuid/search',
         templateUrl: "search.html"
         controller: 'SearchController'
+      .when '/events/build',
+        templateUrl: "build_event.html"
+        controller: 'BuildEventController'
       .otherwise
         redirectTo: "/"
 ])
@@ -207,3 +210,44 @@ controllers.controller("SearchController", [ '$scope', '$routeParams', '$http', 
     .then onSuccess, onError
 ])
 
+
+controllers.controller("BuildEventController", [ '$scope', '$http', '$location', ($scope, $http, $location) ->
+  $scope.event = {}
+  $scope.state = {}
+
+  $scope.submit = ->
+    $scope.state.saving = true
+
+    onError = (response) ->
+      $scope.error = response.data.message
+      $scope.state.saving = false
+
+    onSuccess = (response) ->
+      $scope.event.url = response.data.url
+      $scope.event.shortlink = response.data.shortlink
+      $scope.event.id = response.data.id
+      $scope.state.saving = false
+
+    $http.post "/events/generate.json", { event: $scope.event }
+    .then onSuccess, onError
+
+  $scope.deliver = ->
+    $scope.state.saving = true
+
+    onError = (response) ->
+      $scope.phoneError = response.data.message
+      $scope.state.saving = false
+      
+    onSuccess = (response) ->
+      alert "Text delivered!"
+      $scope.state.saving = false
+
+    $http.post "/events/deliver.json", { event: $scope.event }
+    .then onSuccess, onError
+
+  $scope.clear = -> $scope.event = {}
+
+  $scope.done = ->
+    if confirm "Make sure you've got the link!"
+      $location.path('/')
+])

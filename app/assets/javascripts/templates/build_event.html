@@ -1,0 +1,90 @@
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+
+    <div class='header'>
+      <small>Create new link</small>
+    </div>
+
+    <a href='#/' ng-if='!event.id' class='btn btn-info btn-sm'>&laquo; Home</a>
+    <a href ng-click='clear()' ng-if='event.id' class='btn btn-info btn-sm'>&laquo; Back</a>
+
+    <p class='lead text-center'>
+      {{ event.id ? "Success!" : "Create a ridesharing link" }}
+    </p>
+
+    <p class='text-center text-muted' ng-if='event.id.length'>
+      <small>"{{ event.title }}" is ready to go.</small>
+    </p>
+
+    <div class='alert alert-danger' ng-if='error'>
+      {{ error }}
+    </div>
+
+    <form ng-submit='submit()'>
+
+      <div class='form-group' ng-if='!event.id.length'>
+        <label for="title">What's the name of the event?</label>
+        <input type="text" class="form-control" name="title" ng-model='event.title' required='required'>
+      </div>
+
+      <div class='form-group' ng-if='event.shortlink.length'>
+        <label for="shortlink">Your ridesharing shortlink:</label>
+        <input type="text" class="form-control" name="shortlink" ng-model='event.shortlink'>
+        <p class="help-block text-muted">Send this to volunteer drivers and passengers!</p>
+      </div>
+
+      <div class='form-group hide' ng-if='event.url.length'>
+        <label for="url">Your event url:</label>
+        <input type="text" class="form-control" name="url" ng-model='event.url'>
+        <p class="help-block text-muted">The URL volunteers can use to register.</p>
+      </div>
+
+      <div class='form-group' ng-if='!event.id'>
+
+        <button class='btn btn-success btn-block btn-lg' ng-disabled="state.saving">
+          {{ state.saving ? 'Working...' : 'Generate link' }}
+        </button>
+
+        <a ng-href="#/" class='btn btn-default btn-block btn-lg'>
+          Cancel
+        </a>
+
+      </div>
+
+    </form>
+
+    <form ng-submit='deliver()' ng-if='event.id.length'>
+      <div class='alert alert-danger' ng-if='phoneError'>
+        {{ phoneError }}
+      </div>
+
+      <div class='form-group' ng-if='!state.displayingPhone'>
+        <label class='text-center'>Scared of losing the link?</label>
+        <a href ng-click='state.displayingPhone = true' class='btn btn-primary btn-block btn-lg'>Text me the link</a>
+        <p class="help-block text-muted">So you don't lose it!</p>
+      </div>
+
+      <div ng-if='state.displayingPhone'>
+        <div class='form-group'>
+          <label for="phone">Deal! What's your phone number?</label>
+          <input type="tel" class="form-control" name="phone" ng-model='event.phone' required='required'>
+          <p class="help-block text-muted">We'll text you the shortlink right now.</p>
+        </div>
+
+        <div class='form-group'>
+          <button class='btn btn-primary btn-block btn-lg' ng-disabled="state.saving">
+            {{ state.saving ? 'Sending...' : 'Text me' }}
+          </button>
+        </div>
+      </div>
+
+      <div class='form-group'>
+        <a href class='btn btn-success btn-block btn-lg' ng-click='done()'>
+          All done
+        </a>
+      </div>
+    </form>
+
+  </div>
+</div>
+
