@@ -13,15 +13,13 @@ class Profile < ActiveRecord::Base
 
     if !other_profile.driver?
       msg = %[
-        RideWithBernie: #{first_name} has offered to drive you to #{event_title}, 
-        coming from #{location} with #{seats} seat#{'s' if seats != 1} available. 
-        Call/text #{first_name} at #{phone} for more details.
+        RideWithBernie: #{first_name} at #{phone} offered to drive you to #{event_title}, 
+        coming from #{location} with #{seats} seat#{'s' if seats != 1} available.
       ]
     else
       msg = %[
-        RideWithBernie: #{first_name} has asked for a ride to #{event_title}, 
+        RideWithBernie: #{first_name} at #{phone} asked you for a ride to #{event_title}, 
         coming from #{location} with #{passengers} total passenger#{'s' if passengers != 1}.
-        Call/text #{first_name} at #{phone} for more details.
       ]
     end
     msg.gsub!(/[\s\n\r]+/, ' ')
