@@ -18,7 +18,7 @@ If you want to modify the front-end assets, you'll also need:
 
 ### Installing
 
-1. Clone this repo with `git clone git@github.com:kyletns/RideWithBernie.git`
+1. Clone this repo with `git clone git@github.com:SandersForPresident/RideWithBernie.git`
 2. `cd RideWithBernie`
 2. `bundle install`
 4. Create the database with `bin/rake db:create`.
