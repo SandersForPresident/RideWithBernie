@@ -61,7 +61,7 @@ protected
       self.phone = number.national_format
     rescue Twilio::REST::RequestError => e
       raise e unless e.code == 20404 # ensure this is a 404 error
-      self.errors[:phone] << "doesn't look right. Make sure to include an area code"
+      self.errors[:phone] << "doesn't look right. Make sure to include an area code."
     end
   end
 
