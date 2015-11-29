@@ -5,7 +5,7 @@ class EventsController < ApplicationController
     event = params[:event]
     title = event[:title].to_s.strip
     if title.blank?
-      render json: { message: "Please provide a title" }, status: :unprocessable_entity
+      render json: { message: "Please provide a title." }, status: :unprocessable_entity
     else
       id = Event.generate_id
       url = "#{ENV['ROOT_URL']}/#/instructions?event_id=#{id}&event_title=#{CGI.escape title}"
