@@ -19,7 +19,7 @@ class Profile < ActiveRecord::Base
       ]
     else
       msg = %[
-        RideWithBernie: #{first_name} has asked for a ride to #{event_title},
+        RideWithBernie: #{first_name} has asked for a ride to #{event_title}, 
         coming from #{location} with #{passengers} total passenger#{'s' if passengers != 1}.
         Call/text #{first_name} at #{phone} for more details.
       ]
