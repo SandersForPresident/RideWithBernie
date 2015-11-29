@@ -69,7 +69,7 @@ protected
 
     url = Bitly.client.shorten("#{ENV['ROOT_URL']}/#/profile/#{self.uuid}/search").short_url
 
-    msg = "RideWithBernie: Thanks for signing up for ridesharing to "#{event_title}"! You can always get back to your profile here: #{url}"
+    msg = "RideWithBernie: Thanks for signing up for ridesharing to #{event_title}! You can always get back to your profile here: #{url}"
 
     client = Twilio::REST::Client.new
     client.messages.create(
