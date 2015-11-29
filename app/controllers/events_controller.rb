@@ -25,7 +25,7 @@ class EventsController < ApplicationController
         render json: { message: "Sorry, we couldn't text that phone number! Please double check it, or write down the rideshare link." }, status: :unprocessable_entity
       end
     else
-      render json: { message: "Please provide a phone number" }, status: :unprocessable_entity
+      render json: { message: "Please provide a phone number." }, status: :unprocessable_entity
     end
   end
 
