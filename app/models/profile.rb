@@ -13,20 +13,13 @@ class Profile < ActiveRecord::Base
 
     if !other_profile.driver?
       msg = %[
-        RideWithBernie: Hi #{other_profile.first_name}! 
-        #{first_name} is driving to "#{event_title},"
-        coming from "#{location}," and has
-        #{seats} seat#{'s' if seats != 1} available.
-        You can contact #{first_name} at #{phone} for more details.
-        We suggest a phone call to stay safe!
+        RideWithBernie: #{first_name} at #{phone} offered to drive you to #{event_title}, 
+        coming from #{location} with #{seats} seat#{'s' if seats != 1} available.
       ]
     else
       msg = %[
-        RideWithBernie: Hi #{other_profile.first_name}! 
-        #{first_name} needs a ride to "#{event_title},"
-        coming from "#{location}," with #{passengers} total passenger#{'s' if passengers != 1}.
-        If you can help out, please contact #{first_name} at #{phone} for more details.
-        We suggest a phone call to stay safe!
+        RideWithBernie: #{first_name} at #{phone} asked you for a ride to #{event_title}, 
+        coming from #{location} with #{passengers} total passenger#{'s' if passengers != 1}.
       ]
     end
     msg.gsub!(/[\s\n\r]+/, ' ')
@@ -61,7 +54,7 @@ protected
       self.phone = number.national_format
     rescue Twilio::REST::RequestError => e
       raise e unless e.code == 20404 # ensure this is a 404 error
-      self.errors[:phone] << "doesn't look right. Make sure to include an area code"
+      self.errors[:phone] << "doesn't look right. Make sure to include an area code."
     end
   end
 
@@ -69,7 +62,7 @@ protected
 
     url = Bitly.client.shorten("#{ENV['ROOT_URL']}/#/profile/#{self.uuid}/search").short_url
 
-    msg = "Thanks for signing up for RideWithBernie! You can always get back to your profile here: #{url}"
+    msg = "RideWithBernie: You've signed up for ridesharing to #{event_title}! You can always get back to your profile here - #{url}"
 
     client = Twilio::REST::Client.new
     client.messages.create(
