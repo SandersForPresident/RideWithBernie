@@ -5,7 +5,7 @@ class EventsController < ApplicationController
     event = params[:event]
     title = event[:title].to_s.strip
     if title.blank?
-      render json: { message: "Please provide a title" }, status: :unprocessable_entity
+      render json: { message: "Please provide a title." }, status: :unprocessable_entity
     else
       id = Event.generate_id
       url = "#{ENV['ROOT_URL']}/#/instructions?event_id=#{id}&event_title=#{CGI.escape title}"
@@ -18,7 +18,7 @@ class EventsController < ApplicationController
     event = params[:event]
     if event[:title].present? and event[:shortlink].present? and event[:phone].present?
       begin
-        msg = "RideWithBernie: Here's the rideshare link for your event - #{event[:shortlink]}"
+        msg = "RideWithBernie: Here's the rideshare link for #{event[:title]} - #{event[:shortlink]}"
         Twilio::REST::Client.new.messages.create(from: ENV['TWILIO_PHONE_NUMBER'], to: event[:phone], body: msg)
         render json: { success: true }, status: :ok
       rescue Twilio::REST::RequestError => e
