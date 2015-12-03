@@ -28,8 +28,13 @@ If you want to modify the front-end assets, you'll also need:
 
 ### Starter Guide for getting setup on a Codeanywhere VM
 
+<<<<<<< HEAD
 1. Follow the starter guide - [https://paste.ee/p/jjtrt](https://paste.ee/p/jjtrt)
 2. Contact @cmuld3r in the slack group with any starter guide questions (see Contributing section below for access).
+=======
+1. Follow the starter guide - [http://paste.ee/p/A1B2C](http://paste.ee/p/A1B2C)
+2. Contact @cmuld3r in the slack group for any setup questions.
+>>>>>>> parent of bb202de... more readme updates for codeanywhere
 
 ### What our app is setup with
 
