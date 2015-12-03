@@ -25,6 +25,12 @@ If you want to modify the front-end assets, you'll also need:
 5. Boot up the server with `rails server`
 5. Head to [http://localhost:3000](http://localhost:3000).
 
+
+### Starter Guide for getting setup on a Codeanywhere VM
+
+1. Follow the starter guide - [http://paste.ee/p/A1B2C](http://paste.ee/p/A1B2C)
+2. Contact @cmuld3r in the slack group for any setup questions.
+
 ### What our app is setup with
 
 - Rails 4.2.4
@@ -39,7 +45,7 @@ If you want to modify the front-end assets, you'll also need:
 The main html file is `app/views/pages/index.html.erb`, which is rendered inside the layout `app/views/layouts/application.html.erb`.
 This file just boots up the angular app, and hosts the ng-view.
 
-**Templates** are stored in `app/assets/javascripts/templates`, and end with `.html` or `.html.erb`. I've put 2 in there for starters.
+**Templates** are stored in `app/assets/javascripts/templates`, and end with `.html` or `.html.erb`.
 
 **Coffeescript** is all in `app/assets/javascripts/app.coffee`, let's just keep ourselves to one coffee file for now.
 
