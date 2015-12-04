@@ -26,10 +26,10 @@ If you want to modify the front-end assets, you'll also need:
 5. Head to [http://localhost:3000](http://localhost:3000).
 
 
-### Starter Guide for getting setup on a Codeanywhere VM
+### Startup Guide for getting setup on a Codeanywhere VM
 
-1. Follow the starter guide - [https://paste.ee/p/jjtrt](https://paste.ee/p/jjtrt)
-2. Contact @cmuld3r in the slack group with any starter guide questions (see Contributing section below for access).
+[https://gist.github.com/cmuld3r/2071d5df7ce7717d2c68](https://gist.github.com/cmuld3r/2071d5df7ce7717d2c68)
+
 
 ### What our app is setup with
 
