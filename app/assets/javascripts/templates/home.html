@@ -3,10 +3,10 @@
     <p class='lead text-center'>Ride with Bernie</p>
     <div ng-if='!organizer'>
       <p class='bump'>
-        <a href='http://bernie2016events.org' class='btn btn-success btn-block btn-lg'>I'm looking for rideshare</a>  
+        <a href='http://bernie2016events.org' class='btn btn-success btn-block btn-lg'>Find a rideshare</a>  
       </p>
       <p class='text-center' ng-show='!organizer'>
-      <small> Find your event on the map,<br/> and click the CARPOOL button!</small>
+      <small> Find an event on the map and click the CARPOOL button!</small>
       </p>
       <hr class='bump'/>
     </div>
@@ -14,7 +14,7 @@
       <a ng-click='organizer=true' ng-hide='organizer' class='btn btn-danger btn-block btn-lg'>I'm an event organizer</a>
     </p>
     <p class='text-center' ng-hide='organizer'>
-      <small> Great, let's get your rideshare link!</small>
+      <small> Great, let's get your rideshare link so you can share it with attendees!</small>
     </p>
     <div ng-show='organizer'>
       <div ng-hide='map || missing'>
