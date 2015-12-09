@@ -25,6 +25,15 @@ ridewithbernie.config([ '$routeProvider',
       .when '/events/build',
         templateUrl: "build_event.html"
         controller: 'BuildEventController'
+      .when '/events',
+        templateUrl: "event.html"
+      .when '/events/refer',
+        templateUrl: "event_referral.html"
+      .when '/events/intro',
+        templateUrl: "build_event_intro.html"        
+      .when '/events/build',
+        templateUrl: "build_event.html"
+        controller: 'BuildEventController'
       .otherwise
         redirectTo: "/"
 ])
