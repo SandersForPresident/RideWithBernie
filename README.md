@@ -56,6 +56,12 @@ There's no API yet, but when we've got one, we'll post it here!
 We're using [bower-rails](https://github.com/rharriso/bower-rails/) for super simple front-end asset management,
 and all assets are stored in `vendor/assets/bower_components`. If you need more front-end libraries, modify the `Bowerfile`, and then install them with `rake bower:install`. You may need to google around to find the exact line to put into the `Bowerfile`.
 
+### Deploying
+
+The app is currently set up to auto-deploy through Heroku, but there is one manual step involved (so we don't accidentally break anything). Anytime a commit is made on the `master` branch of *this repository*, [SandersForPresident/RideWithBernie](https://github.com/SandersForPresident/RideWithBernie/), that code is automatically deployed out to our staging app, called `ridewithbernie-staging` on Heroku, which lives at https://staging.ridewithbernie.com. We can then test it out, and make sure everything is working properly. If it is, then any Heroku collaborator can head to our "Pipeline" [here](https://dashboard.heroku.com/pipelines/45a6121c-3cf8-4c23-8c0b-7fac2a4be3cf) to "Promote" the code from staging to production. The production app, called `ridewithbernie` on Heroku, lives at https://ridewithbernie.com.
+
+Note: It's possible that the auto-deploy will fail, causing the staging app to seem un-updated, in which case errors will show up on the Heroku Pipeline.
+
 ### Contributing
 
 We use the [Github Flow](https://guides.github.com/introduction/flow/) branching model.
