@@ -1,32 +1,25 @@
 <div class="row instructions">
   <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+   
     <p class='lead text-center'>Ride with Bernie</p>
-      
-    <table>
-      <tr>
-        <td>
-          <span class='big-number'>1</span>
-        </td>
-        <td>Create a rideshare link for your event.</td>
-      </tr>
-      <tr>
-        <td>
-          <span class='big-number'>2</span>
-        </td>
-        <td>Send it around to volunteers who have/need rides.</td>
-      </tr>
-      <tr>
-        <td>
-          <span class='big-number'>3</span>
-        </td>
-        <td>Volunteers will sign up and contact each other through the app!</td>
-      </tr>
-    </table>
-    <br>
-    <p>
-      <a href='/#/events/build' class='btn btn-success btn-block btn-lg'>Create rideshare link</a>
+    
+    <p class='bump'>
+      <a href='http://bernie2016events.org' class='btn btn-success btn-block btn-lg'>Find a rideshare</a>  
     </p>
-    <p class='text-center'>
-    <small> Planning to attend an event? <br> Ask the organizers for the rideshare link!</small>
+    
+    <p class='text-center' ng-show='!organizer'>
+    <small> Find an event on the map and click the CARPOOL button!</small>
+    </p>
+    
+    <hr class='bump'/>
+    
+    <p class='bump'>
+      <a href='/#/events' class='btn btn-danger btn-block btn-lg'>I'm an event organizer</a>
+    </p>
+    
+    <p class='text-center' ng-hide='organizer'>
+      <small> Get your rideshare link so you can share it with attendees!</small>
+    </p>
+    
   </div>
 </div>

@@ -22,6 +22,12 @@ ridewithbernie.config([ '$routeProvider',
       .when '/profile/:uuid/search',
         templateUrl: "search.html"
         controller: 'SearchController'
+      .when '/events',
+        templateUrl: "event.html"
+      .when '/events/refer',
+        templateUrl: "event_referral.html"
+      .when '/events/intro',
+        templateUrl: "build_event_intro.html"        
       .when '/events/build',
         templateUrl: "build_event.html"
         controller: 'BuildEventController'
