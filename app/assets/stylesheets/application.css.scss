@@ -66,6 +66,11 @@ span.big-number {
   margin-bottom: 12px;
 }
 
+.lead.site-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
 .form-group {
   margin-bottom: 31px;
 }
@@ -104,5 +109,14 @@ hr {
   border: 0;
   border-bottom: 1px solid #ccc;
 }
+
+.logo {
+  display: block;
+  margin: 20px auto -25px auto;
+  width: 130px;
+  height: auto;
+}
+
+
 
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic);
