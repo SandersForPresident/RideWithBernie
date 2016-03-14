@@ -5,8 +5,8 @@ and work our way up to helping people get to the polls on caucus day and electio
 
 ### Requirements
 
-1. Ruby 2.2.3
-2. Rails 4.2.4
+1. Ruby 2.3.0
+2. Rails 4.2.5
 2. [RubyGems](https://rubygems.org/pages/download)
 3. [Bundler](http://bundler.io/)
 3. Postgres ([Postgres.app](http://postgresapp.com/) recommended for OS X).
@@ -33,8 +33,8 @@ If you want to modify the front-end assets, you'll also need:
 
 ### What our app is setup with
 
-- Rails 4.2.4
-- Ruby 2.2.3
+- Rails 4.2.5
+- Ruby 2.3.0
 - Angular 1.4.7
 - [BernieStrap](http://coders.forsanders.com/bootstrap/)
 - [Font Awesome](http://fontawesome.io/get-started/) icons
